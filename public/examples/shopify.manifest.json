@@ -1,0 +1,21 @@
+{
+  "manifest_version": "1.0",
+  "app": {
+    "name": "Shopify Store",
+    "url": "https://example.myshopify.com",
+    "description": "E-commerce store powered by Shopify"
+  },
+  "actions": [
+    { "id": "list_products", "description": "List products in the catalog", "risk": "low", "scopes": ["products:read"] },
+    { "id": "list_orders", "description": "List recent orders", "risk": "low", "scopes": ["orders:read"] },
+    { "id": "update_inventory", "description": "Update stock levels for a product", "risk": "medium", "scopes": ["inventory:write"],
+      "parameters": { "product_id": { "type": "string", "required": true }, "quantity": { "type": "integer", "required": true } } },
+    { "id": "refund_order", "description": "Issue a refund for an order", "risk": "high", "scopes": ["orders:refund"], "requires_approval": true,
+      "parameters": { "order_id": { "type": "string", "required": true }, "amount_cents": { "type": "integer", "required": true } } }
+  ],
+  "approval_rules": [
+    { "when": { "action": "refund_order", "amount_cents": { "gt": 5000 } }, "require": "human_approver" }
+  ],
+  "agent_identity": { "required": true, "verification": "bearer_token" },
+  "audit": { "log_all": true, "retention_days": 365, "export_format": "json" }
+}

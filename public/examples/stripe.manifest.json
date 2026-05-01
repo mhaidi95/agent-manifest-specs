@@ -1,0 +1,22 @@
+{
+  "manifest_version": "1.0",
+  "app": {
+    "name": "Stripe Account",
+    "url": "https://stripe.com",
+    "description": "Payments and subscription billing"
+  },
+  "actions": [
+    { "id": "list_customers", "description": "List customers", "risk": "low", "scopes": ["customers:read"] },
+    { "id": "list_charges", "description": "List recent charges", "risk": "low", "scopes": ["charges:read"] },
+    { "id": "create_refund", "description": "Refund a charge", "risk": "high", "scopes": ["refunds:write"], "requires_approval": true,
+      "parameters": { "charge_id": { "type": "string", "required": true }, "amount_cents": { "type": "integer", "required": false } } },
+    { "id": "create_payout", "description": "Initiate a payout to a connected account", "risk": "high", "scopes": ["payouts:write"], "requires_approval": true,
+      "parameters": { "amount_cents": { "type": "integer", "required": true }, "destination": { "type": "string", "required": true } } }
+  ],
+  "approval_rules": [
+    { "when": { "action": "create_refund", "amount_cents": { "gt": 10000 } }, "require": "two_person" },
+    { "when": { "action": "create_payout" }, "require": "admin_only" }
+  ],
+  "agent_identity": { "required": true, "verification": "mtls" },
+  "audit": { "log_all": true, "retention_days": 2555, "export_format": "ndjson" }
+}
