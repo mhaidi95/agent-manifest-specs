@@ -1,1 +1,4 @@
 project_id = "vxuvjjceqpukfyytwddf"
+
+[functions.v1-invoke]
+verify_jwt = false
