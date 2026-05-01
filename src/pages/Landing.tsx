@@ -246,7 +246,7 @@ export default function Landing() {
               <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> View the spec</Link>
             </Button>
             <Button size="lg" variant="ghost" asChild>
-              <a href="https://github.com" target="_blank" rel="noreferrer noopener">
+              <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener">
                 <Github className="mr-2 h-4 w-4" /> Star on GitHub
               </a>
             </Button>
@@ -285,7 +285,7 @@ export default function Landing() {
           <div className="flex items-center gap-6">
             <Link to="/spec" className="hover:text-foreground transition-colors">Spec</Link>
             <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
+            <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
           </div>
           <p>© {new Date().getFullYear()} BridgeAI · The runtime control plane for AI agents.</p>
         </div>
