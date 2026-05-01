@@ -9,9 +9,9 @@ import { toast } from "sonner";
 
 type Approval = {
   id: string; action_name: string; agent_identity: string | null;
-  payload: any; reason: string | null; status: string;
+  payload: any; reason: string | null; status: string; app_id: string;
   created_at: string; expires_at: string;
-  connected_apps?: { name: string };
+  app_name?: string;
 };
 
 export default function PendingApprovals() {
@@ -20,13 +20,12 @@ export default function PendingApprovals() {
   const [items, setItems] = useState<Approval[]>([]);
 
   const load = async () => {
-    const { data } = await supabase
-      .from("pending_approvals")
-      .select("*, connected_apps(name)")
-      .eq("status", tab)
-      .order("created_at", { ascending: false })
-      .limit(100);
-    setItems((data ?? []) as Approval[]);
+    const [{ data }, { data: a }] = await Promise.all([
+      supabase.from("pending_approvals").select("*").eq("status", tab).order("created_at", { ascending: false }).limit(100),
+      supabase.from("connected_apps").select("id, name"),
+    ]);
+    const appMap = new Map((a ?? []).map((x: any) => [x.id, x.name]));
+    setItems(((data ?? []) as any[]).map(row => ({ ...row, app_name: appMap.get(row.app_id) })) as Approval[]);
   };
   useEffect(() => { if (user) load(); }, [user, tab]);
 
@@ -77,7 +76,7 @@ export default function PendingApprovals() {
             <div key={a.id} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex items-center gap-3 flex-wrap mb-2">
                 <code className="font-mono text-sm font-semibold">{a.action_name}</code>
-                {a.connected_apps?.name && <Badge variant="outline">{a.connected_apps.name}</Badge>}
+                {a.app_name && <Badge variant="outline">{a.app_name}</Badge>}
                 {a.reason && <Badge variant="secondary" className="text-xs">{a.reason}</Badge>}
                 <span className="text-xs text-muted-foreground ml-auto">{new Date(a.created_at).toLocaleString()}</span>
               </div>

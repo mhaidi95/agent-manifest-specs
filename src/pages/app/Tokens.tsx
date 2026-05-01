@@ -14,7 +14,7 @@ type Token = {
   id: string; label: string; token_prefix: string; agent_identity: string;
   allowed_scopes: string[]; revoked_at: string | null; last_used_at: string | null;
   created_at: string; app_id: string;
-  connected_apps?: { name: string };
+  app_name?: string;
 };
 type App = { id: string; name: string };
 
@@ -24,7 +24,7 @@ async function sha256(s: string) {
 }
 function genToken() {
   const bytes = crypto.getRandomValues(new Uint8Array(24));
-  const b64 = btoa(String.fromCharCode(...bytes)).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
+  const b64 = btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
   return `bai_${b64}`;
 }
 
@@ -38,10 +38,11 @@ export default function Tokens() {
 
   const load = async () => {
     const [{ data: t }, { data: a }] = await Promise.all([
-      supabase.from("agent_tokens").select("*, connected_apps(name)").order("created_at", { ascending: false }),
+      supabase.from("agent_tokens").select("*").order("created_at", { ascending: false }),
       supabase.from("connected_apps").select("id, name"),
     ]);
-    setTokens((t ?? []) as Token[]);
+    const appMap = new Map((a ?? []).map((x: any) => [x.id, x.name]));
+    setTokens(((t ?? []) as any[]).map(row => ({ ...row, app_name: appMap.get(row.app_id) })) as Token[]);
     setApps((a ?? []) as App[]);
   };
   useEffect(() => { if (user) load(); }, [user]);
@@ -98,7 +99,7 @@ export default function Tokens() {
                 </div>
               </div>
               <div className="text-xs text-muted-foreground">
-                {t.connected_apps?.name && <Badge variant="outline" className="mr-2">{t.connected_apps.name}</Badge>}
+                {t.app_name && <Badge variant="outline" className="mr-2">{t.app_name}</Badge>}
                 {t.allowed_scopes.length > 0 && <span>{t.allowed_scopes.length} scopes</span>}
               </div>
               {t.revoked_at ? (
