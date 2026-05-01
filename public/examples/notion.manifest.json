@@ -1,0 +1,17 @@
+{
+  "manifest_version": "1.0",
+  "app": {
+    "name": "Notion Workspace",
+    "url": "https://notion.so",
+    "description": "Team workspace for docs, wikis, and projects"
+  },
+  "actions": [
+    { "id": "search_pages", "description": "Search across pages in the workspace", "risk": "low", "scopes": ["pages:read"] },
+    { "id": "create_page", "description": "Create a new page", "risk": "low", "scopes": ["pages:write"] },
+    { "id": "share_page_externally", "description": "Share a page with a public link", "risk": "high", "scopes": ["pages:share"], "requires_approval": true,
+      "parameters": { "page_id": { "type": "string", "required": true } } },
+    { "id": "delete_page", "description": "Permanently delete a page", "risk": "high", "scopes": ["pages:delete"], "requires_approval": true }
+  ],
+  "agent_identity": { "required": true, "verification": "signed_jwt" },
+  "audit": { "log_all": true, "retention_days": 730 }
+}
