@@ -64,6 +64,51 @@ export type Database = {
           },
         ]
       }
+      agent_tokens: {
+        Row: {
+          agent_identity: string
+          allowed_scopes: string[]
+          app_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          label: string
+          last_used_at: string | null
+          revoked_at: string | null
+          token_hash: string
+          token_prefix: string
+          user_id: string
+        }
+        Insert: {
+          agent_identity: string
+          allowed_scopes?: string[]
+          app_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          label: string
+          last_used_at?: string | null
+          revoked_at?: string | null
+          token_hash: string
+          token_prefix: string
+          user_id: string
+        }
+        Update: {
+          agent_identity?: string
+          allowed_scopes?: string[]
+          app_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          label?: string
+          last_used_at?: string | null
+          revoked_at?: string | null
+          token_hash?: string
+          token_prefix?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       approval_rules: {
         Row: {
           app_id: string
@@ -185,6 +230,54 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_approvals: {
+        Row: {
+          action_name: string
+          agent_identity: string | null
+          app_id: string
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          expires_at: string
+          id: string
+          payload: Json | null
+          reason: string | null
+          status: string
+          token_id: string | null
+          user_id: string
+        }
+        Insert: {
+          action_name: string
+          agent_identity?: string | null
+          app_id: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          expires_at?: string
+          id?: string
+          payload?: Json | null
+          reason?: string | null
+          status?: string
+          token_id?: string | null
+          user_id: string
+        }
+        Update: {
+          action_name?: string
+          agent_identity?: string | null
+          app_id?: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          expires_at?: string
+          id?: string
+          payload?: Json | null
+          reason?: string | null
+          status?: string
+          token_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       permissions: {
         Row: {
           action_id: string | null
@@ -238,7 +331,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      lookup_active_token: {
+        Args: { _hash: string }
+        Returns: {
+          agent_identity: string
+          allowed_scopes: string[]
+          app_id: string
+          id: string
+          label: string
+          user_id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
