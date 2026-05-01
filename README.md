@@ -48,7 +48,7 @@ Think of it as **OpenAPI for the agent economy** — but with safety, identity, 
 
 ## Adopt the spec in 4 steps
 
-1. **Generate** a manifest for your app (manually, or with AgentGate).
+1. **Generate** a manifest for your app (manually, or with [AgentGate](https://agentgate.lovable.app)).
 2. **Host** it at `https://yourapp.com/.well-known/agent-manifest.json`.
 3. **Validate** against `schema/manifest.v1.json`.
 4. **Display** the *Agent-Ready* badge on your site.
@@ -94,4 +94,4 @@ MIT — use it, fork it, ship it.
 
 ## Maintained by
 
-AgentGate — the governance layer for the agent economy.
+[AgentGate](https://agentgate.lovable.app) — the governance layer for the agent economy.
