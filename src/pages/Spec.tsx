@@ -58,7 +58,7 @@ export default function Spec() {
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
             <Link to="/spec" className="text-foreground">Spec</Link>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors flex items-center gap-1">
+            <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors flex items-center gap-1">
               GitHub <ExternalLink className="h-3 w-3" />
             </a>
           </nav>
@@ -80,7 +80,7 @@ export default function Spec() {
 
         <div className="flex gap-3 mb-12">
           <Button asChild>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4 mr-2" /> View on GitHub
             </a>
           </Button>
@@ -157,7 +157,7 @@ export default function Spec() {
           <h3 className="text-2xl font-bold mb-2">Help shape v1.1</h3>
           <p className="text-muted-foreground mb-6">The spec is open-source and community-driven. Open an issue, propose a change, or contribute an example.</p>
           <Button asChild>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4 mr-2" /> Contribute on GitHub
             </a>
           </Button>
