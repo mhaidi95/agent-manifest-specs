@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { KeyRound, Plus, Copy, Trash2 } from "lucide-react";
+import { KeyRound, Plus, Copy, Trash2, PlayCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 type Token = {
@@ -16,7 +17,7 @@ type Token = {
   created_at: string; app_id: string;
   app_name?: string;
 };
-type App = { id: string; name: string };
+type App = { id: string; name: string; manifest: any };
 
 async function sha256(s: string) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
@@ -28,6 +29,8 @@ function genToken() {
   return `bai_${b64}`;
 }
 
+const PROXY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/v1-invoke`;
+
 export default function Tokens() {
   const { user } = useAuth();
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -36,10 +39,19 @@ export default function Tokens() {
   const [newToken, setNewToken] = useState<string | null>(null);
   const [form, setForm] = useState({ label: "", agent_identity: "agent://openai/operator", app_id: "", scopes: "" });
 
+  // Playground state
+  const [playOpen, setPlayOpen] = useState(false);
+  const [playToken, setPlayToken] = useState<Token | null>(null);
+  const [playTokenValue, setPlayTokenValue] = useState("");
+  const [playAction, setPlayAction] = useState("");
+  const [playParams, setPlayParams] = useState("{}");
+  const [playLoading, setPlayLoading] = useState(false);
+  const [playResponse, setPlayResponse] = useState<{ status: number; body: any } | null>(null);
+
   const load = async () => {
     const [{ data: t }, { data: a }] = await Promise.all([
       supabase.from("agent_tokens").select("*").order("created_at", { ascending: false }),
-      supabase.from("connected_apps").select("id, name"),
+      supabase.from("connected_apps").select("id, name, manifest"),
     ]);
     const appMap = new Map((a ?? []).map((x: any) => [x.id, x.name]));
     setTokens(((t ?? []) as any[]).map(row => ({ ...row, app_name: appMap.get(row.app_id) })) as Token[]);
@@ -69,6 +81,56 @@ export default function Tokens() {
     await supabase.from("agent_tokens").delete().eq("id", id);
     toast.success("Token deleted"); load();
   };
+
+  const openPlayground = (t: Token) => {
+    setPlayToken(t);
+    setPlayTokenValue("");
+    setPlayResponse(null);
+    const app = apps.find(a => a.id === t.app_id);
+    const firstAction = app?.manifest?.actions?.[0]?.name ?? "";
+    setPlayAction(firstAction);
+    setPlayParams("{}");
+    setPlayOpen(true);
+  };
+
+  const sendPlayground = async () => {
+    if (!playTokenValue.startsWith("bai_")) {
+      toast.error("Paste the bai_ token you copied when creating it.");
+      return;
+    }
+    let parsed: any;
+    try { parsed = JSON.parse(playParams || "{}"); }
+    catch { toast.error("Parameters must be valid JSON"); return; }
+
+    setPlayLoading(true);
+    setPlayResponse(null);
+    try {
+      const res = await fetch(PROXY_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-bridgeai-token": playTokenValue.trim(),
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify({ action: playAction, parameters: parsed }),
+      });
+      const body = await res.json().catch(() => ({}));
+      setPlayResponse({ status: res.status, body });
+    } catch (e: any) {
+      setPlayResponse({ status: 0, body: { error: e?.message ?? "Network error" } });
+    } finally {
+      setPlayLoading(false);
+    }
+  };
+
+  const playApp = playToken ? apps.find(a => a.id === playToken.app_id) : null;
+  const playActions: any[] = playApp?.manifest?.actions ?? [];
+
+  const statusColor = (s: number) =>
+    s >= 200 && s < 300 ? "bg-success text-success-foreground"
+    : s === 202 ? "bg-warning text-warning-foreground"
+    : s >= 400 ? "bg-destructive text-destructive-foreground"
+    : "bg-secondary text-secondary-foreground";
 
   return (
     <div className="container max-w-6xl mx-auto p-6 md:p-10">
@@ -108,7 +170,12 @@ export default function Tokens() {
                 <Badge className="bg-success text-success-foreground">active</Badge>
               )}
               {!t.revoked_at && (
-                <Button variant="outline" size="sm" onClick={() => revoke(t.id)}>Revoke</Button>
+                <>
+                  <Button variant="default" size="sm" onClick={() => openPlayground(t)}>
+                    <PlayCircle className="h-4 w-4 mr-1.5" /> Test
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => revoke(t.id)}>Revoke</Button>
+                </>
               )}
               <Button variant="ghost" size="sm" onClick={() => remove(t.id)}>
                 <Trash2 className="h-4 w-4" />
@@ -118,10 +185,14 @@ export default function Tokens() {
         </div>
       )}
 
+      {/* Create token dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>{newToken ? "Token created" : "Create agent token"}</DialogTitle>
+            <DialogDescription>
+              {newToken ? "This is the only time you'll see the full token." : "Configure scope and identity for the agent."}
+            </DialogDescription>
           </DialogHeader>
           {newToken ? (
             <div className="space-y-4">
@@ -160,6 +231,83 @@ export default function Tokens() {
               </DialogFooter>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Playground dialog */}
+      <Dialog open={playOpen} onOpenChange={setPlayOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Test request — {playToken?.label}</DialogTitle>
+            <DialogDescription>
+              Fire a sample call against <code className="font-mono">/v1/invoke</code>. Tokens are sent as <code className="font-mono">x-bridgeai-token</code>.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Paste your <code className="font-mono">bai_</code> token</Label>
+              <Input
+                value={playTokenValue}
+                onChange={e => setPlayTokenValue(e.target.value)}
+                placeholder={`${playToken?.token_prefix ?? "bai_"}…`}
+                className="font-mono text-xs"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                For security, the full token isn't stored — paste the one you copied when you created it.
+              </p>
+            </div>
+            <div>
+              <Label>Action</Label>
+              <Select
+                value={playAction}
+                onValueChange={v => {
+                  setPlayAction(v);
+                  const a = playActions.find(x => x.name === v);
+                  const sample: Record<string, any> = {};
+                  (a?.parameters ?? []).forEach((p: any) => {
+                    sample[p.name] = p.type === "number" ? 0 : p.type === "boolean" ? false : "example";
+                  });
+                  setPlayParams(JSON.stringify(sample, null, 2));
+                }}
+              >
+                <SelectTrigger><SelectValue placeholder="Pick an action" /></SelectTrigger>
+                <SelectContent>
+                  {playActions.map(a => (
+                    <SelectItem key={a.name} value={a.name}>
+                      {a.name} · <span className="text-muted-foreground">{a.risk_level}{a.requires_approval ? " · approval" : ""}</span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Parameters (JSON)</Label>
+              <Textarea
+                value={playParams}
+                onChange={e => setPlayParams(e.target.value)}
+                rows={5}
+                className="font-mono text-xs"
+              />
+            </div>
+            <Button onClick={sendPlayground} disabled={playLoading} className="w-full">
+              {playLoading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending…</> : <><PlayCircle className="h-4 w-4 mr-2" /> Send request</>}
+            </Button>
+
+            {playResponse && (
+              <div className="rounded-lg border border-border bg-secondary/50 p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-semibold text-muted-foreground">Response</span>
+                  <Badge className={statusColor(playResponse.status)}>HTTP {playResponse.status}</Badge>
+                </div>
+                <pre className="text-xs font-mono overflow-x-auto max-h-64 whitespace-pre-wrap break-all">
+                  {JSON.stringify(playResponse.body, null, 2)}
+                </pre>
+                <p className="text-xs text-muted-foreground mt-3">
+                  See <strong>Logs</strong> for the immutable audit entry, or <strong>Pending approvals</strong> if it was queued.
+                </p>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
