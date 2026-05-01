@@ -14,7 +14,225 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_actions: {
+        Row: {
+          app_id: string
+          created_at: string
+          description: string | null
+          endpoint: string | null
+          id: string
+          method: string
+          name: string
+          parameters: Json | null
+          requires_approval: boolean
+          risk_level: string
+          user_id: string
+        }
+        Insert: {
+          app_id: string
+          created_at?: string
+          description?: string | null
+          endpoint?: string | null
+          id?: string
+          method?: string
+          name: string
+          parameters?: Json | null
+          requires_approval?: boolean
+          risk_level?: string
+          user_id: string
+        }
+        Update: {
+          app_id?: string
+          created_at?: string
+          description?: string | null
+          endpoint?: string | null
+          id?: string
+          method?: string
+          name?: string
+          parameters?: Json | null
+          requires_approval?: boolean
+          risk_level?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_actions_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "connected_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      approval_rules: {
+        Row: {
+          app_id: string
+          condition: string
+          created_at: string
+          enabled: boolean
+          id: string
+          name: string
+          notify_email: string | null
+          threshold: number | null
+          user_id: string
+        }
+        Insert: {
+          app_id: string
+          condition: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          name: string
+          notify_email?: string | null
+          threshold?: number | null
+          user_id: string
+        }
+        Update: {
+          app_id?: string
+          condition?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          name?: string
+          notify_email?: string | null
+          threshold?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approval_rules_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "connected_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_logs: {
+        Row: {
+          action_name: string
+          agent_identity: string | null
+          app_id: string | null
+          created_at: string
+          id: string
+          payload: Json | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          action_name: string
+          agent_identity?: string | null
+          app_id?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          action_name?: string
+          agent_identity?: string | null
+          app_id?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "connected_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      connected_apps: {
+        Row: {
+          base_url: string
+          created_at: string
+          description: string | null
+          id: string
+          manifest: Json | null
+          name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          base_url: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          manifest?: Json | null
+          name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          base_url?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          manifest?: Json | null
+          name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      permissions: {
+        Row: {
+          action_id: string | null
+          allowed_agents: string[] | null
+          app_id: string
+          created_at: string
+          enabled: boolean
+          id: string
+          scope: string
+          user_id: string
+        }
+        Insert: {
+          action_id?: string | null
+          allowed_agents?: string[] | null
+          app_id: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          scope: string
+          user_id: string
+        }
+        Update: {
+          action_id?: string | null
+          allowed_agents?: string[] | null
+          app_id?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          scope?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permissions_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "agent_actions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "permissions_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "connected_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
