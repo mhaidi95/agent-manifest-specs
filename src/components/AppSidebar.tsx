@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, AppWindow, Zap, Shield, GitBranch, ScrollText, LogOut } from "lucide-react";
+import { LayoutDashboard, AppWindow, Zap, Shield, GitBranch, ScrollText, LogOut, KeyRound, Inbox } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter, useSidebar,
@@ -16,6 +16,8 @@ const items = [
   { title: "Actions", url: "/app/actions", icon: Zap },
   { title: "Permissions", url: "/app/permissions", icon: Shield },
   { title: "Approval rules", url: "/app/approvals", icon: GitBranch },
+  { title: "Pending approvals", url: "/app/pending", icon: Inbox },
+  { title: "Agent tokens", url: "/app/tokens", icon: KeyRound },
   { title: "Audit logs", url: "/app/logs", icon: ScrollText },
 ];
 
