@@ -1,22 +1,42 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
-import { ArrowRight, Shield, Zap, FileText, Users, Bot, CheckCircle2, Lock, GitBranch } from "lucide-react";
-import heroImg from "@/assets/hero.jpg";
+import { Badge } from "@/components/ui/badge";
+import {
+  ArrowRight, Shield, FileText, Bot, CheckCircle2, Lock, Eye,
+  GitBranch, Zap, AlertTriangle, ScrollText, KeyRound, Workflow,
+  Github, Activity,
+} from "lucide-react";
 
-const features = [
-  { icon: Bot, title: "Agent-readable actions", desc: "Auto-generate a structured manifest of every action an AI agent can perform on your app." },
-  { icon: Shield, title: "Granular permissions", desc: "Define scopes per action and per agent. Revoke instantly. Default-deny everywhere." },
-  { icon: GitBranch, title: "Approval workflows", desc: "Require human approval for high-risk or high-value actions, automatically." },
-  { icon: FileText, title: "Full audit logs", desc: "Every agent call, with payload, identity, and outcome — searchable and exportable." },
-  { icon: Lock, title: "Safe by default", desc: "Risk-classified actions, rate limits, and signed agent identities baked in." },
-  { icon: Zap, title: "AI-powered onboarding", desc: "Describe your app once. We generate the full agent manifest in seconds." },
+const pillars = [
+  {
+    icon: Eye,
+    title: "Every agent action, observed",
+    desc: "A single proxy sits in front of every AI-driven request. Nothing reaches your app until BridgeAI sees it, classifies it, and records it.",
+  },
+  {
+    icon: Lock,
+    title: "Every action, governed",
+    desc: "Per-agent tokens, scoped permissions, default-deny. High-risk actions are paused mid-flight until a human approves.",
+  },
+  {
+    icon: ScrollText,
+    title: "Every event, audited",
+    desc: "Immutable, signed audit logs of who (which agent) did what, when, and why — exportable for SOC 2, ISO 27001, EU AI Act, and your board.",
+  },
 ];
 
-const steps = [
-  { n: "01", title: "Connect your app", desc: "Add your SaaS by name, URL, and a short description." },
-  { n: "02", title: "Generate the manifest", desc: "Our AI emits a structured layer of actions, scopes, and approval rules." },
-  { n: "03", title: "Let agents in — safely", desc: "AI agents now read your app, ask for permission, and leave a perfect audit trail." },
+const flow = [
+  { icon: Bot, title: "Agent calls /v1/invoke", desc: "Your AI agents — internal or external — point at one endpoint." },
+  { icon: KeyRound, title: "Token + scope check", desc: "BridgeAI verifies the agent identity and confirms the action is in scope." },
+  { icon: Workflow, title: "Approval rules fire", desc: "High-risk or high-value actions are paused for human review, automatically." },
+  { icon: Activity, title: "Audited & forwarded", desc: "Result is logged immutably and (optionally) forwarded to your real backend." },
+];
+
+const risks = [
+  { title: "Prompt injection in production", desc: "An attacker convinces your agent to wire $50k. Without a runtime gate, you find out from your bank." },
+  { title: "Silent over-permissioned agents", desc: "Your agent has admin scope “just in case.” It deletes a customer record. Nobody knows which agent, which prompt, which version." },
+  { title: "EU AI Act / SOC 2 evidence gaps", desc: "Auditors ask for agent action logs. You hand them a Slack thread and a `console.log`." },
 ];
 
 export default function Landing() {
@@ -24,13 +44,13 @@ export default function Landing() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border">
-        <div className="container mx-auto flex h-16 items-center justify-between">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Logo />
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+            <a href="#problem" className="hover:text-foreground transition-colors">Problem</a>
             <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
-            <Link to="/spec" className="hover:text-foreground transition-colors">Spec</Link>
-            <a href="#why" className="hover:text-foreground transition-colors">Why BridgeAI</a>
+            <Link to="/spec" className="hover:text-foreground transition-colors">Open spec</Link>
+            <a href="#compliance" className="hover:text-foreground transition-colors">Compliance</a>
           </nav>
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild><Link to="/auth">Sign in</Link></Button>
@@ -45,60 +65,95 @@ export default function Landing() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh" />
         <div className="container mx-auto relative px-4 py-20 md:py-28">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border text-xs font-medium text-muted-foreground mb-6">
-                <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-                The agent-readable web is here
-              </div>
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-                Make your SaaS <span className="text-gradient">speak to AI agents</span>.
-              </h1>
-              <p className="mt-6 text-lg text-muted-foreground max-w-xl">
-                Websites today speak to humans. BridgeAI transforms your app into a structured, safe, machine-readable layer — actions, permissions, approvals, and audit logs — so AI agents can use it without breaking it.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
-                  <Link to="/auth?mode=signup">Start for free <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="#how">See how it works</a>
-                </Button>
-              </div>
-              <div className="mt-8 flex items-center gap-6 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> SOC2-ready audit logs</div>
-                <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Default-deny permissions</div>
-              </div>
+          <div className="max-w-4xl mx-auto text-center animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border text-xs font-medium text-muted-foreground mb-6">
+              <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
+              Now in private beta · Built on the open Agent Manifest spec
             </div>
-            <div className="relative animate-fade-in-slow">
-              <div className="absolute -inset-4 bg-gradient-hero opacity-20 blur-3xl rounded-full" />
-              <img
-                src={heroImg}
-                alt="BridgeAI connects web apps to AI agents through a structured machine-readable layer"
-                width={1536}
-                height={1024}
-                className="relative rounded-2xl shadow-elegant border border-border"
-              />
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+              The <span className="text-gradient">runtime control plane</span><br/>
+              for AI agents.
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Stop AI agents from doing what they shouldn't. BridgeAI sits between every agent and your app — enforcing scopes, requiring human approval for high-risk actions, and producing the audit trail your CISO and your auditors need.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+              <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
+                <Link to="/auth?mode=signup">Start governing agents <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link to="/spec">Read the open spec</Link>
+              </Button>
+            </div>
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-muted-foreground justify-center">
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> SOC 2-ready audit logs</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Default-deny scopes</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Human-in-the-loop approvals</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> EU AI Act evidence</div>
+            </div>
+          </div>
+
+          {/* Visual: terminal-style flow card */}
+          <div className="relative mt-16 max-w-4xl mx-auto animate-fade-in-slow">
+            <div className="absolute -inset-4 bg-gradient-hero opacity-20 blur-3xl rounded-full" />
+            <div className="relative rounded-2xl border border-border bg-card shadow-elegant p-6 font-mono text-xs">
+              <div className="flex items-center gap-1.5 mb-4">
+                <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
+                <span className="h-2.5 w-2.5 rounded-full bg-warning/60" />
+                <span className="h-2.5 w-2.5 rounded-full bg-success/60" />
+                <span className="ml-2 text-muted-foreground">POST /v1/invoke</span>
+              </div>
+              <div className="space-y-2 text-foreground/80 leading-relaxed">
+                <div><span className="text-muted-foreground">→</span> agent <span className="text-primary">agent://openai/operator</span> requests <span className="text-accent">refund_order</span> ($1,240)</div>
+                <div><span className="text-success">✓</span> identity verified · token in scope · <span className="text-warning">amount &gt; threshold</span></div>
+                <div><span className="text-warning">⏸</span> queued for human approval · <code>approval_id: ap_b7f2…</code></div>
+                <div><span className="text-success">✓</span> approved by <span className="text-primary">finance@acme.com</span> in 42s</div>
+                <div><span className="text-success">✓</span> forwarded · audit log <code>au_9d3e…</code> written</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="py-20 md:py-28">
+      {/* Problem */}
+      <section id="problem" className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">Everything an agent needs. Nothing you don't trust.</h2>
-            <p className="mt-4 text-muted-foreground">A complete machine-readable layer on top of your existing app — without rewriting it.</p>
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Badge variant="outline" className="mb-4">The risk you can't see</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">Your agents are already in production. Your governance isn't.</h2>
+            <p className="mt-4 text-muted-foreground">
+              Agentic features ship in weeks. The controls — identity, scope, approval, audit — usually ship in <em>quarters</em>, if at all. BridgeAI closes the gap on day one.
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="group p-6 rounded-2xl border border-border bg-card hover:shadow-elegant hover:-translate-y-0.5 transition-all">
-                <div className="h-10 w-10 rounded-lg bg-gradient-card flex items-center justify-center mb-4 group-hover:bg-gradient-hero transition-colors">
-                  <f.icon className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors" />
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {risks.map(r => (
+              <div key={r.title} className="p-6 rounded-2xl border border-border bg-card">
+                <div className="h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center mb-4">
+                  <AlertTriangle className="h-5 w-5 text-destructive" />
                 </div>
-                <h3 className="font-semibold text-lg">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <h3 className="font-semibold">{r.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Three pillars */}
+      <section className="py-20 md:py-28">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold">Observe. Govern. Audit.</h2>
+            <p className="mt-4 text-muted-foreground">One layer between every AI agent and every app you care about.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {pillars.map(p => (
+              <div key={p.title} className="group p-8 rounded-2xl border border-border bg-card hover:shadow-elegant hover:-translate-y-0.5 transition-all">
+                <div className="h-12 w-12 rounded-xl bg-gradient-card flex items-center justify-center mb-5 group-hover:bg-gradient-hero transition-colors">
+                  <p.icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                </div>
+                <h3 className="font-semibold text-lg">{p.title}</h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
@@ -108,58 +163,69 @@ export default function Landing() {
       {/* How it works */}
       <section id="how" className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">From human UI to agent API in 3 steps</h2>
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Badge variant="outline" className="mb-4">How it works</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">Four steps. One endpoint. Total control.</h2>
+            <p className="mt-4 text-muted-foreground">
+              Point your agent at <code className="font-mono text-foreground">/v1/invoke</code>. We handle identity, policy, approval, and audit before anything touches your app.
+            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {steps.map((s) => (
-              <div key={s.n} className="p-8 rounded-2xl bg-card border border-border">
-                <div className="text-sm font-mono text-primary font-semibold">{s.n}</div>
-                <h3 className="mt-3 text-xl font-semibold">{s.title}</h3>
-                <p className="mt-2 text-muted-foreground">{s.desc}</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {flow.map((s, i) => (
+              <div key={s.title} className="relative p-6 rounded-2xl bg-card border border-border">
+                <div className="text-xs font-mono text-muted-foreground mb-2">STEP {String(i + 1).padStart(2, "0")}</div>
+                <div className="h-10 w-10 rounded-lg bg-gradient-card flex items-center justify-center mb-3">
+                  <s.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-semibold">{s.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why */}
-      <section id="why" className="py-20 md:py-28">
-        <div className="container mx-auto px-4 max-w-4xl">
+      {/* Compliance */}
+      <section id="compliance" className="py-20 md:py-28">
+        <div className="container mx-auto px-4 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold">Built for the agentic era.</h2>
-              <p className="mt-4 text-muted-foreground">AI agents are about to use the web on your users' behalf. Without a structured layer, every interaction is a brittle scrape and every action is a security risk.</p>
+              <Badge variant="outline" className="mb-4">For CISOs and compliance leads</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold">The evidence layer for the agentic enterprise.</h2>
+              <p className="mt-4 text-muted-foreground">
+                Regulators are catching up to AI agents fast. The EU AI Act, NIST AI RMF, and the next SOC 2 update all expect you to prove what your agents did and why. BridgeAI makes that evidence a side effect of running the system.
+              </p>
               <ul className="mt-6 space-y-3">
-                {["Stop agents from breaking your forms", "Stop them from doing things they shouldn't", "Prove exactly what they did, when, and why"].map(t => (
-                  <li key={t} className="flex items-start gap-3"><CheckCircle2 className="h-5 w-5 text-success mt-0.5 flex-shrink-0" /><span>{t}</span></li>
+                {[
+                  "Per-agent identity and revocable tokens",
+                  "Tamper-evident, exportable audit logs",
+                  "Pre-built mappings to SOC 2 CC7.2, ISO 27001 A.8.16, EU AI Act Art. 12",
+                  "Two-person approval for high-risk operations",
+                ].map(t => (
+                  <li key={t} className="flex items-start gap-3">
+                    <Shield className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <span className="text-sm">{t}</span>
+                  </li>
                 ))}
               </ul>
             </div>
             <div className="p-6 rounded-2xl bg-card border border-border shadow-elegant font-mono text-xs">
-              <div className="flex items-center gap-1.5 mb-3">
+              <div className="flex items-center gap-1.5 mb-4">
                 <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
                 <span className="h-2.5 w-2.5 rounded-full bg-warning/60" />
                 <span className="h-2.5 w-2.5 rounded-full bg-success/60" />
-                <span className="ml-2 text-muted-foreground">manifest.json</span>
+                <span className="ml-2 text-muted-foreground">audit_log.ndjson</span>
               </div>
-              <pre className="text-foreground/80 leading-relaxed overflow-x-auto">
+              <pre className="text-foreground/80 leading-relaxed overflow-x-auto whitespace-pre-wrap">
 {`{
-  "actions": [{
-    "name": "refund_order",
-    "method": "POST",
-    "risk_level": "high",
-    "requires_approval": true
-  }],
-  "permission_scopes": [
-    "orders:read",
-    "orders:refund"
-  ],
-  "approval_rules": [{
-    "name": "Large refunds",
-    "condition": "amount > threshold",
-    "threshold": 500
-  }]
+  "ts": "2026-05-01T22:14:08Z",
+  "agent": "agent://openai/operator",
+  "action": "refund_order",
+  "params": { "amount": 124000 },
+  "decision": "approved",
+  "approver": "finance@acme.com",
+  "policy": "amount > 50000 → human",
+  "audit_id": "au_9d3e7b…"
 }`}
               </pre>
             </div>
@@ -167,17 +233,47 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* Open spec */}
+      <section className="py-20 md:py-28 bg-gradient-soft border-y border-border">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <Badge variant="outline" className="mb-4"><Github className="h-3 w-3 mr-1.5 inline" /> Open standard</Badge>
+          <h2 className="text-3xl md:text-4xl font-bold">Built on the open <span className="text-gradient">Agent Manifest</span> spec.</h2>
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+            The category needs a standard, not a silo. We publish the Agent Manifest spec under MIT — anyone can implement it. BridgeAI is the runtime that makes it enforceable.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3 justify-center">
+            <Button size="lg" variant="outline" asChild>
+              <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> View the spec</Link>
+            </Button>
+            <Button size="lg" variant="ghost" asChild>
+              <a href="https://github.com" target="_blank" rel="noreferrer noopener">
+                <Github className="mr-2 h-4 w-4" /> Star on GitHub
+              </a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-hero p-12 md:p-16 text-center shadow-elegant">
             <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
-            <div className="relative">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">Ready to make your app agent-ready?</h2>
-              <p className="mt-4 text-primary-foreground/80 max-w-xl mx-auto">Sign up in 30 seconds. Generate your first manifest in under a minute.</p>
-              <Button size="lg" variant="secondary" asChild className="mt-8">
-                <Link to="/auth?mode=signup">Get started free <ArrowRight className="ml-2 h-4 w-4" /></Link>
-              </Button>
+            <div className="relative max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
+                Your agents are already running. Govern them before someone else has to.
+              </h2>
+              <p className="mt-4 text-primary-foreground/85">
+                Wire up your first agent in under 10 minutes. Free for design partners.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3 justify-center">
+                <Button size="lg" variant="secondary" asChild>
+                  <Link to="/auth?mode=signup">Start free <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                </Button>
+                <Button size="lg" variant="ghost" asChild className="text-primary-foreground hover:bg-white/10 hover:text-primary-foreground">
+                  <a href="mailto:hello@bridgeai.dev?subject=Design partner program">Talk to founders</a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -186,7 +282,12 @@ export default function Landing() {
       <footer className="border-t border-border py-8">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <Logo className="text-base" />
-          <p>© {new Date().getFullYear()} BridgeAI. The agent-readable web.</p>
+          <div className="flex items-center gap-6">
+            <Link to="/spec" className="hover:text-foreground transition-colors">Spec</Link>
+            <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
+            <a href="https://github.com" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
+          </div>
+          <p>© {new Date().getFullYear()} BridgeAI · The runtime control plane for AI agents.</p>
         </div>
       </footer>
     </div>
