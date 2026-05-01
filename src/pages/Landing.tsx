@@ -29,6 +29,7 @@ export default function Landing() {
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
             <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
+            <Link to="/spec" className="hover:text-foreground transition-colors">Spec</Link>
             <a href="#why" className="hover:text-foreground transition-colors">Why BridgeAI</a>
           </nav>
           <div className="flex items-center gap-2">
