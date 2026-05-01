@@ -12,7 +12,7 @@ const pillars = [
   {
     icon: Eye,
     title: "Every agent action, observed",
-    desc: "A single proxy sits in front of every AI-driven request. Nothing reaches your app until BridgeAI sees it, classifies it, and records it.",
+    desc: "A single proxy sits in front of every AI-driven request. Nothing reaches your app until AgentGate sees it, classifies it, and records it.",
   },
   {
     icon: Lock,
@@ -28,7 +28,7 @@ const pillars = [
 
 const flow = [
   { icon: Bot, title: "Agent calls /v1/invoke", desc: "Your AI agents — internal or external — point at one endpoint." },
-  { icon: KeyRound, title: "Token + scope check", desc: "BridgeAI verifies the agent identity and confirms the action is in scope." },
+  { icon: KeyRound, title: "Token + scope check", desc: "AgentGate verifies the agent identity and confirms the action is in scope." },
   { icon: Workflow, title: "Approval rules fire", desc: "High-risk or high-value actions are paused for human review, automatically." },
   { icon: Activity, title: "Audited & forwarded", desc: "Result is logged immutably and (optionally) forwarded to your real backend." },
 ];
@@ -75,7 +75,7 @@ export default function Landing() {
               for AI agents.
             </h1>
             <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Stop AI agents from doing what they shouldn't. BridgeAI sits between every agent and your app — enforcing scopes, requiring human approval for high-risk actions, and producing the audit trail your CISO and your auditors need.
+              Stop AI agents from doing what they shouldn't. AgentGate sits between every agent and your app — enforcing scopes, requiring human approval for high-risk actions, and producing the audit trail your CISO and your auditors need.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 justify-center">
               <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
@@ -122,7 +122,7 @@ export default function Landing() {
             <Badge variant="outline" className="mb-4">The risk you can't see</Badge>
             <h2 className="text-3xl md:text-4xl font-bold">Your agents are already in production. Your governance isn't.</h2>
             <p className="mt-4 text-muted-foreground">
-              Agentic features ship in weeks. The controls — identity, scope, approval, audit — usually ship in <em>quarters</em>, if at all. BridgeAI closes the gap on day one.
+              Agentic features ship in weeks. The controls — identity, scope, approval, audit — usually ship in <em>quarters</em>, if at all. AgentGate closes the gap on day one.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -193,7 +193,7 @@ export default function Landing() {
               <Badge variant="outline" className="mb-4">For CISOs and compliance leads</Badge>
               <h2 className="text-3xl md:text-4xl font-bold">The evidence layer for the agentic enterprise.</h2>
               <p className="mt-4 text-muted-foreground">
-                Regulators are catching up to AI agents fast. The EU AI Act, NIST AI RMF, and the next SOC 2 update all expect you to prove what your agents did and why. BridgeAI makes that evidence a side effect of running the system.
+                Regulators are catching up to AI agents fast. The EU AI Act, NIST AI RMF, and the next SOC 2 update all expect you to prove what your agents did and why. AgentGate makes that evidence a side effect of running the system.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
@@ -239,7 +239,7 @@ export default function Landing() {
           <Badge variant="outline" className="mb-4"><Github className="h-3 w-3 mr-1.5 inline" /> Open standard</Badge>
           <h2 className="text-3xl md:text-4xl font-bold">Built on the open <span className="text-gradient">Agent Manifest</span> spec.</h2>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            The category needs a standard, not a silo. We publish the Agent Manifest spec under MIT — anyone can implement it. BridgeAI is the runtime that makes it enforceable.
+            The category needs a standard, not a silo. We publish the Agent Manifest spec under MIT — anyone can implement it. AgentGate is the runtime that makes it enforceable.
           </p>
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <Button size="lg" variant="outline" asChild>
@@ -271,7 +271,7 @@ export default function Landing() {
                   <Link to="/auth?mode=signup">Start free <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
                 <Button size="lg" variant="ghost" asChild className="text-primary-foreground hover:bg-white/10 hover:text-primary-foreground">
-                  <a href="mailto:hello@bridgeai.dev?subject=Design partner program">Talk to founders</a>
+                  <a href="mailto:hello@agentgate.dev?subject=Design partner program">Talk to founders</a>
                 </Button>
               </div>
             </div>
@@ -287,7 +287,7 @@ export default function Landing() {
             <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
             <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
           </div>
-          <p>© {new Date().getFullYear()} BridgeAI · The runtime control plane for AI agents.</p>
+          <p>© {new Date().getFullYear()} AgentGate · The runtime control plane for AI agents.</p>
         </div>
       </footer>
     </div>

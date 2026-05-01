@@ -8,7 +8,7 @@ export const Logo = ({ className }: { className?: string }) => (
       <Bot className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
     </span>
     <span>
-      Bridge<span className="text-gradient">AI</span>
+      Agent<span className="text-gradient">Gate</span>
     </span>
   </Link>
 );

@@ -146,7 +146,7 @@ export default function Spec() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Adopt the spec</h2>
           <ol className="space-y-3 text-muted-foreground list-decimal list-inside">
-            <li>Generate a manifest for your app (BridgeAI does this automatically, or write it by hand).</li>
+            <li>Generate a manifest for your app (<Link to="/auth" className="text-primary hover:underline">AgentGate</Link> does this automatically, or write it by hand).</li>
             <li>Host it at <code className="bg-secondary px-1.5 py-0.5 rounded text-foreground text-sm">/.well-known/agent-manifest.json</code>.</li>
             <li>Validate it against the JSON schema.</li>
             <li>Display the <em>"Agent-Ready"</em> badge on your site.</li>
@@ -166,7 +166,7 @@ export default function Spec() {
 
       <footer className="border-t border-border mt-20 py-10">
         <div className="container mx-auto text-center text-sm text-muted-foreground">
-          Agent Manifest Specification — Maintained by BridgeAI · MIT License
+          Agent Manifest Specification — Maintained by AgentGate · MIT License
         </div>
       </footer>
     </div>

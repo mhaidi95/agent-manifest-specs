@@ -42,7 +42,7 @@ export default function Auth() {
           options: { emailRedirectTo: `${window.location.origin}/app` },
         });
         if (error) throw error;
-        toast.success("Account created. Welcome to BridgeAI!");
+        toast.success("Account created. Welcome to AgentGate!");
         navigate("/app");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -72,7 +72,7 @@ export default function Auth() {
               {mode === "signup" ? "Create your account" : "Welcome back"}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              {mode === "signup" ? "Start making your apps agent-ready." : "Sign in to your BridgeAI dashboard."}
+              {mode === "signup" ? "Start making your apps agent-ready." : "Sign in to your AgentGate dashboard."}
             </p>
             <form onSubmit={submit} className="mt-6 space-y-4">
               <div className="space-y-2">
@@ -91,7 +91,7 @@ export default function Auth() {
               {mode === "signup" ? (
                 <>Already have an account?{" "}<button onClick={() => setMode("signin")} className="text-primary font-medium hover:underline">Sign in</button></>
               ) : (
-                <>New to BridgeAI?{" "}<button onClick={() => setMode("signup")} className="text-primary font-medium hover:underline">Create an account</button></>
+                <>New to AgentGate?{" "}<button onClick={() => setMode("signup")} className="text-primary font-medium hover:underline">Create an account</button></>
               )}
             </div>
           </div>
