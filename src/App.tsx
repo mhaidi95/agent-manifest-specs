@@ -19,6 +19,7 @@ import Approvals from "./pages/app/Approvals";
 import Logs from "./pages/app/Logs";
 import Tokens from "./pages/app/Tokens";
 import PendingApprovals from "./pages/app/PendingApprovals";
+import AdminMetrics from "./pages/app/AdminMetrics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="pending" element={<PendingApprovals />} />
             <Route path="tokens" element={<Tokens />} />
             <Route path="logs" element={<Logs />} />
+            <Route path="admin" element={<AdminMetrics />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

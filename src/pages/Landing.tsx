@@ -319,7 +319,7 @@ export default function Landing() {
                   <Link to="/auth?mode=signup">Start free <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
                 <Button size="lg" variant="ghost" asChild className="text-primary-foreground hover:bg-white/10 hover:text-primary-foreground">
-                  <a href="mailto:hello@agentgate.dev?subject=Design partner program">Email the founders</a>
+                  <Link to="/getting-started">See the walkthrough</Link>
                 </Button>
               </div>
             </div>
