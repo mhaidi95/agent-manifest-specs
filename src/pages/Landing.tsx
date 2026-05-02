@@ -271,21 +271,21 @@ export default function Landing() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4">For beta testers</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Don't watch a demo. <span className="text-gradient">Run one.</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Skip the demo. Run the real thing.</h2>
             <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-              Six concrete steps that exercise the full runtime — token auth, scope enforcement, denied actions, and the audit trail. Takes about 5 minutes.
+              Six steps, about five minutes, all against the live system. You'll auth a real token, get a real allow, get a real deny, and read the audit log we wrote for you.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
             {[
-              { n: "01", t: "Sign up & open dashboard", d: "Email or Google. No waitlist." },
-              { n: "02", t: "Click 'Load demo app'", d: "Seeds app, action, permission, token." },
-              { n: "03", t: "Curl /v1/invoke", d: "Real call. 200 OK with audit_id." },
-              { n: "04", t: "Trigger a deny", d: "Try an out-of-scope action — see the 403." },
-              { n: "05", t: "Inspect Logs", d: "Both calls show up with full payload." },
-              { n: "06", t: "Wire your own app", d: "Swap the demo for your real manifest." },
+              { n: "01", t: "Sign up", d: "Email or Google. You land in the dashboard, no waitlist." },
+              { n: "02", t: "Hit “Load demo app”", d: "We seed an app, an action, a permission, and a token." },
+              { n: "03", t: "Curl /v1/invoke", d: "A real call. You'll get a 200 and an audit_id." },
+              { n: "04", t: "Try a denied action", d: "Change the action name. Watch the 403 come back." },
+              { n: "05", t: "Open Logs", d: "Both calls are there, with the full payload and decision." },
+              { n: "06", t: "Plug in your own app", d: "When you're ready, swap the demo for your real manifest." },
             ].map(s => (
-              <div key={s.n} className="p-5 rounded-xl border border-border bg-card">
+              <div key={s.n} className="p-5 rounded-lg border border-border bg-card">
                 <div className="text-xs font-mono text-muted-foreground">STEP {s.n}</div>
                 <div className="mt-1 font-semibold">{s.t}</div>
                 <div className="mt-1 text-sm text-muted-foreground">{s.d}</div>
@@ -293,11 +293,11 @@ export default function Landing() {
             ))}
           </div>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
+            <Button size="lg" asChild className="shadow-elegant">
               <Link to="/getting-started">Open the walkthrough <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/auth?mode=signup">Sign up & start now</Link>
+              <Link to="/auth?mode=signup">Or just sign up</Link>
             </Button>
           </div>
         </div>
