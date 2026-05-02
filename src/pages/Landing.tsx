@@ -249,13 +249,13 @@ export default function Landing() {
       <section className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <Badge variant="outline" className="mb-4"><Github className="h-3 w-3 mr-1.5 inline" /> Open standard</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold">Built on the open <span className="text-gradient">Agent Manifest</span> spec.</h2>
+          <h2 className="text-3xl md:text-4xl font-bold">The spec is open. The lock-in isn't here.</h2>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            The category needs a standard, not a silo. We publish the Agent Manifest spec under MIT — anyone can implement it. AgentGate is the runtime that makes it enforceable.
+            We publish the Agent Manifest spec under MIT — describe your app once, anyone can build a runtime for it. We just happen to think ours is pretty good.
           </p>
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <Button size="lg" variant="outline" asChild>
-              <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> View the spec</Link>
+              <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> Read the spec</Link>
             </Button>
             <Button size="lg" variant="ghost" asChild>
               <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener">
