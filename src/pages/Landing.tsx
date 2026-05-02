@@ -306,21 +306,20 @@ export default function Landing() {
       {/* Final CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-hero p-12 md:p-16 text-center shadow-elegant">
-            <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-hero p-12 md:p-16 text-center shadow-elegant border border-border">
             <div className="relative max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
-                Your agents are already running. Govern them before someone else has to.
+                Your agents are running. Put something in front of them.
               </h2>
-              <p className="mt-4 text-primary-foreground/85">
-                Wire up your first agent in under 10 minutes. Free for design partners.
+              <p className="mt-4 text-primary-foreground/80">
+                First agent wired up in under ten minutes. Free for design partners while we're in beta.
               </p>
               <div className="mt-8 flex flex-wrap gap-3 justify-center">
                 <Button size="lg" variant="secondary" asChild>
                   <Link to="/auth?mode=signup">Start free <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
                 <Button size="lg" variant="ghost" asChild className="text-primary-foreground hover:bg-white/10 hover:text-primary-foreground">
-                  <a href="mailto:hello@agentgate.dev?subject=Design partner program">Talk to founders</a>
+                  <a href="mailto:hello@agentgate.dev?subject=Design partner program">Email the founders</a>
                 </Button>
               </div>
             </div>
