@@ -2,105 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AgentGate design system — Light, clean, enterprise SaaS.
+/* AgentGate design system — infra/security tone.
+   Quiet, dense, terminal-adjacent. One confident accent.
    All colors MUST be HSL. */
 
 @layer base {
   :root {
-    --background: 220 33% 99%;
-    --foreground: 222 47% 11%;
+    /* Off-white paper, near-black ink — like Stripe/Linear/Vercel docs */
+    --background: 40 20% 99%;
+    --foreground: 222 25% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 222 25% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 222 25% 12%;
 
-    /* Brand: deep indigo */
-    --primary: 230 70% 52%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 230 90% 65%;
+    /* Brand: a single, calm slate-ink primary. No rainbow. */
+    --primary: 222 35% 16%;
+    --primary-foreground: 40 20% 99%;
+    --primary-glow: 222 30% 28%;
 
-    --secondary: 220 20% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 222 25% 12%;
 
-    --muted: 220 20% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 42%;
 
-    --accent: 195 90% 50%;
+    /* The one accent — terminal green for "allowed/audit" semantics */
+    --accent: 152 55% 35%;
     --accent-foreground: 0 0% 100%;
 
-    --success: 152 60% 40%;
+    --success: 152 55% 35%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
+    --warning: 38 88% 48%;
+    --warning-foreground: 222 25% 12%;
 
-    --destructive: 0 75% 55%;
+    --destructive: 0 65% 48%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 18% 90%;
-    --input: 220 18% 90%;
-    --ring: 230 70% 52%;
+    --border: 220 14% 90%;
+    --input: 220 14% 90%;
+    --ring: 222 35% 16%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(230 70% 52%) 0%, hsl(195 90% 50%) 100%);
-    --gradient-soft: linear-gradient(180deg, hsl(220 33% 99%) 0%, hsl(220 30% 96%) 100%);
-    --gradient-card: linear-gradient(135deg, hsl(230 70% 97%) 0%, hsl(195 90% 97%) 100%);
-    --gradient-mesh: radial-gradient(at 20% 0%, hsl(230 90% 90% / 0.6) 0px, transparent 50%),
-                     radial-gradient(at 80% 0%, hsl(195 90% 90% / 0.5) 0px, transparent 50%),
-                     radial-gradient(at 50% 100%, hsl(230 70% 95% / 0.4) 0px, transparent 50%);
+    /* No loud hero gradient — flat, slightly warm ink */
+    --gradient-hero: linear-gradient(180deg, hsl(222 35% 16%) 0%, hsl(222 30% 12%) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(40 20% 99%) 0%, hsl(220 14% 96%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(220 14% 98%) 0%, hsl(220 14% 96%) 100%);
+    /* Mesh kept but very subtle; used sparingly */
+    --gradient-mesh: radial-gradient(at 30% 0%, hsl(222 30% 92% / 0.6) 0px, transparent 50%),
+                     radial-gradient(at 70% 100%, hsl(152 40% 92% / 0.4) 0px, transparent 50%);
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.04);
-    --shadow-md: 0 4px 12px -2px hsl(222 47% 11% / 0.06), 0 2px 4px -2px hsl(222 47% 11% / 0.04);
-    --shadow-lg: 0 16px 40px -12px hsl(230 70% 52% / 0.18);
-    --shadow-glow: 0 0 60px -10px hsl(230 90% 65% / 0.4);
+    /* Shadows: tight, near-black, no purple glow */
+    --shadow-sm: 0 1px 2px 0 hsl(222 25% 12% / 0.04);
+    --shadow-md: 0 2px 6px -1px hsl(222 25% 12% / 0.06), 0 1px 2px -1px hsl(222 25% 12% / 0.04);
+    --shadow-lg: 0 12px 32px -16px hsl(222 25% 12% / 0.18);
+    --shadow-glow: 0 0 0 1px hsl(222 25% 12% / 0.06);
 
-    /* Transitions */
-    --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: all 0.15s ease;
+    --transition-smooth: all 0.2s ease;
 
-    --sidebar-background: 220 30% 98%;
-    --sidebar-foreground: 222 30% 25%;
-    --sidebar-primary: 230 70% 52%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 25% 94%;
-    --sidebar-accent-foreground: 230 70% 52%;
-    --sidebar-border: 220 18% 90%;
-    --sidebar-ring: 230 70% 52%;
+    --sidebar-background: 220 14% 98%;
+    --sidebar-foreground: 222 20% 25%;
+    --sidebar-primary: 222 35% 16%;
+    --sidebar-primary-foreground: 40 20% 99%;
+    --sidebar-accent: 220 14% 94%;
+    --sidebar-accent-foreground: 222 35% 16%;
+    --sidebar-border: 220 14% 90%;
+    --sidebar-ring: 222 35% 16%;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 220 30% 96%;
-    --card: 222 47% 9%;
-    --card-foreground: 220 30% 96%;
-    --popover: 222 47% 9%;
-    --popover-foreground: 220 30% 96%;
-    --primary: 230 90% 65%;
-    --primary-foreground: 222 47% 6%;
-    --secondary: 222 30% 14%;
-    --secondary-foreground: 220 30% 96%;
-    --muted: 222 30% 14%;
-    --muted-foreground: 220 15% 65%;
-    --accent: 195 90% 55%;
-    --accent-foreground: 222 47% 6%;
-    --destructive: 0 70% 50%;
+    --background: 222 28% 7%;
+    --foreground: 220 15% 92%;
+    --card: 222 25% 10%;
+    --card-foreground: 220 15% 92%;
+    --popover: 222 25% 10%;
+    --popover-foreground: 220 15% 92%;
+    --primary: 220 15% 92%;
+    --primary-foreground: 222 28% 7%;
+    --primary-glow: 220 15% 80%;
+    --secondary: 222 22% 14%;
+    --secondary-foreground: 220 15% 92%;
+    --muted: 222 22% 14%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 152 50% 55%;
+    --accent-foreground: 222 28% 7%;
+    --success: 152 50% 55%;
+    --success-foreground: 222 28% 7%;
+    --warning: 38 90% 60%;
+    --warning-foreground: 222 28% 7%;
+    --destructive: 0 65% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 222 30% 18%;
-    --input: 222 30% 18%;
-    --ring: 230 90% 65%;
-    --sidebar-background: 222 47% 9%;
-    --sidebar-foreground: 220 30% 90%;
-    --sidebar-primary: 230 90% 65%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 222 30% 14%;
-    --sidebar-accent-foreground: 230 90% 65%;
-    --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 230 90% 65%;
+    --border: 222 20% 18%;
+    --input: 222 20% 18%;
+    --ring: 220 15% 92%;
+    --sidebar-background: 222 25% 10%;
+    --sidebar-foreground: 220 15% 88%;
+    --sidebar-primary: 220 15% 92%;
+    --sidebar-primary-foreground: 222 28% 7%;
+    --sidebar-accent: 222 22% 14%;
+    --sidebar-accent-foreground: 220 15% 92%;
+    --sidebar-border: 222 20% 18%;
+    --sidebar-ring: 220 15% 92%;
   }
 }
 
@@ -108,9 +115,10 @@
   * { @apply border-border; }
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
   }
   h1, h2, h3, h4 { @apply tracking-tight; }
+  code, pre { font-feature-settings: normal; }
 }
 
 @layer utilities {
@@ -120,10 +128,24 @@
   .bg-gradient-mesh { background: var(--gradient-mesh); }
   .shadow-elegant { box-shadow: var(--shadow-lg); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
+  /* Kept for backwards-compat, but now resolves to the calm ink colour
+     instead of a rainbow gradient — no more "AI launch page" vibe. */
   .text-gradient {
-    background: var(--gradient-hero);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: hsl(var(--foreground));
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: currentColor;
+    background-clip: initial;
+  }
+  /* Subtle dotted grid for hero backgrounds — feels infra, not marketing */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+            mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
   }
 }
+
