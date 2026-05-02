@@ -76,11 +76,10 @@ export default function GettingStarted() {
       <section className="container mx-auto px-4 py-16 md:py-20 max-w-4xl">
         <Badge variant="outline" className="mb-4">For beta testers</Badge>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-          Test AgentGate end-to-end in <span className="text-gradient">5 minutes</span>.
+          Try the whole thing in five minutes.
         </h1>
         <p className="mt-5 text-lg text-muted-foreground">
-          Six concrete steps. Each one exercises a real piece of the runtime — token auth,
-          scope enforcement, audit logging, and human approval. No mock data, no slideware.
+          Six steps. All against the live system. You'll get a real allow, a real deny, and a real audit log to look at — no slideware, no fake data.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
