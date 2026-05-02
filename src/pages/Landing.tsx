@@ -202,17 +202,17 @@ export default function Landing() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge variant="outline" className="mb-4">For CISOs and compliance leads</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">The evidence layer for the agentic enterprise.</h2>
+              <Badge variant="outline" className="mb-4">For security &amp; compliance</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold">When the auditor asks, you have an answer.</h2>
               <p className="mt-4 text-muted-foreground">
-                Regulators are catching up to AI agents fast. The EU AI Act, NIST AI RMF, and the next SOC 2 update all expect you to prove what your agents did and why. AgentGate makes that evidence a side effect of running the system.
+                EU AI Act, NIST AI RMF, the next SOC 2 — they all want the same thing: proof of what your agents did, who let them, and when. With AgentGate, that proof is just a side effect of running the system.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
-                  "Per-agent identity and revocable tokens",
-                  "Tamper-evident, exportable audit logs",
-                  "Pre-built mappings to SOC 2 CC7.2, ISO 27001 A.8.16, EU AI Act Art. 12",
-                  "Two-person approval for high-risk operations",
+                  "One token per agent. Revoke any of them in one click.",
+                  "Every call logged with payload, decision, and approver.",
+                  "Maps cleanly to SOC 2 CC7.2, ISO 27001 A.8.16, EU AI Act Art. 12.",
+                  "Two-person approval for anything you flag as high-risk.",
                 ].map(t => (
                   <li key={t} className="flex items-start gap-3">
                     <Shield className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
