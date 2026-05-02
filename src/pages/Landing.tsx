@@ -54,7 +54,7 @@ export default function Landing() {
             <Link to="/getting-started" className="hover:text-foreground transition-colors">Try it</Link>
             <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
             <a
-              href="https://github.com/agentgate/agent-manifest"
+              href="https://github.com/mhaidi95/agent-manifest-specs"
               target="_blank"
               rel="noreferrer"
               className="hover:text-foreground transition-colors inline-flex items-center gap-1.5"
