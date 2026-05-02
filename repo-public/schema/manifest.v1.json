@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentmanifest.org/schema/v1.json",
+  "title": "Agent Manifest v1",
+  "description": "Open standard for declaring how AI agents can safely interact with a web application.",
+  "type": "object",
+  "required": ["manifest_version", "app", "actions"],
+  "properties": {
+    "manifest_version": {
+      "type": "string",
+      "enum": ["1.0"],
+      "description": "Spec version this manifest conforms to."
+    },
+    "app": {
+      "type": "object",
+      "required": ["name", "url"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "description": { "type": "string" },
+        "logo_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "risk"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "description": { "type": "string" },
+          "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+          "scopes": { "type": "array", "items": { "type": "string" } },
+          "requires_approval": { "type": "boolean", "default": false },
+          "rate_limit_per_minute": { "type": "integer", "minimum": 1 },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "enum": ["string", "integer", "number", "boolean", "array", "object"] },
+                "required": { "type": "boolean" },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "approval_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["when", "require"],
+        "properties": {
+          "when": { "type": "object" },
+          "require": { "type": "string", "enum": ["human_approver", "two_person", "admin_only"] }
+        }
+      }
+    },
+    "agent_identity": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean", "default": true },
+        "verification": { "type": "string", "enum": ["bearer_token", "mtls", "signed_jwt"] }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "log_all": { "type": "boolean", "default": true },
+        "retention_days": { "type": "integer", "minimum": 1 },
+        "export_format": { "type": "string", "enum": ["json", "csv", "ndjson"] }
+      }
+    }
+  }
+}
