@@ -155,8 +155,8 @@ export default function Landing() {
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">Observe. Govern. Audit.</h2>
-            <p className="mt-4 text-muted-foreground">One layer between every AI agent and every app you care about.</p>
+            <h2 className="text-3xl md:text-4xl font-bold">Watch. Block. Prove.</h2>
+            <p className="mt-4 text-muted-foreground">Three things, in front of every agent call.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {pillars.map(p => (
