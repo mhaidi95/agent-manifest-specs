@@ -154,9 +154,25 @@ export default function Validator() {
             placeholder='{ "manifest_version": "1.0", "app": { ... }, "actions": [ ... ] }'
             className="font-mono text-xs"
           />
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 flex gap-2 flex-wrap">
             <Button onClick={() => runValidate(text)} disabled={!text.trim()} className="bg-gradient-hero hover:opacity-90">Validate</Button>
             <Button variant="ghost" onClick={() => { setText(""); setResult(null); }}>Clear</Button>
+            <div className="ml-auto flex gap-2 items-center">
+              <span className="text-xs text-muted-foreground">Try an example:</span>
+              {[
+                { name: "Helpdesk", file: "acme-helpdesk" },
+                { name: "Notion", file: "notion" },
+                { name: "Stripe", file: "stripe" },
+                { name: "Shopify", file: "shopify" },
+              ].map(ex => (
+                <Button key={ex.file} size="sm" variant="outline" onClick={async () => {
+                  const r = await fetch(`/examples/${ex.file}.manifest.json`);
+                  const t = await r.text();
+                  setText(t);
+                  runValidate(t);
+                }}>{ex.name}</Button>
+              ))}
+            </div>
           </div>
         </div>
 
