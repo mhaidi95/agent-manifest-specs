@@ -337,7 +337,7 @@ export default function Landing() {
             <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
             <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
           </div>
-          <p>© {new Date().getFullYear()} AgentGate · The runtime control plane for AI agents.</p>
+          <p>© {new Date().getFullYear()} AgentGate · A firewall for AI agents.</p>
         </div>
       </footer>
     </div>
