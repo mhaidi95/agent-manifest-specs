@@ -11,32 +11,32 @@ import {
 const pillars = [
   {
     icon: Eye,
-    title: "Every agent action, observed",
-    desc: "A single proxy sits in front of every AI-driven request. Nothing reaches your app until AgentGate sees it, classifies it, and records it.",
+    title: "See what your agents actually do",
+    desc: "One proxy in front of every agent call. Nothing hits your backend until we've seen the request, classified it, and written it down.",
   },
   {
     icon: Lock,
-    title: "Every action, governed",
-    desc: "Per-agent tokens, scoped permissions, default-deny. High-risk actions are paused mid-flight until a human approves.",
+    title: "Stop the calls that shouldn't ship",
+    desc: "Each agent gets its own token and a tight set of scopes. Anything risky — refunds, deletes, big amounts — pauses until a human says yes.",
   },
   {
     icon: ScrollText,
-    title: "Every event, audited",
-    desc: "Immutable, signed audit logs of who (which agent) did what, when, and why — exportable for SOC 2, ISO 27001, EU AI Act, and your board.",
+    title: "Hand auditors a real log, not a Slack thread",
+    desc: "Every decision is recorded with the agent, the action, the params, and who approved it. Export it for SOC 2, ISO 27001, or the EU AI Act.",
   },
 ];
 
 const flow = [
-  { icon: Bot, title: "Agent calls /v1/invoke", desc: "Your AI agents — internal or external — point at one endpoint." },
-  { icon: KeyRound, title: "Token + scope check", desc: "AgentGate verifies the agent identity and confirms the action is in scope." },
-  { icon: Workflow, title: "Approval rules fire", desc: "High-risk or high-value actions are paused for human review, automatically." },
-  { icon: Activity, title: "Audited & forwarded", desc: "Result is logged immutably and (optionally) forwarded to your real backend." },
+  { icon: Bot, title: "Your agent hits one URL", desc: "Point any agent — internal, OpenAI, Anthropic, your own — at /v1/invoke." },
+  { icon: KeyRound, title: "We check who it is", desc: "Token verified, agent identity confirmed, action checked against its allowed scopes." },
+  { icon: Workflow, title: "Approval if needed", desc: "If a rule fires (amount > X, action = delete, etc.), the call waits for a human." },
+  { icon: Activity, title: "Logged, then forwarded", desc: "The decision is written to the audit log. If approved, the call goes through to your backend." },
 ];
 
 const risks = [
-  { title: "Prompt injection in production", desc: "An attacker convinces your agent to wire $50k. Without a runtime gate, you find out from your bank." },
-  { title: "Silent over-permissioned agents", desc: "Your agent has admin scope “just in case.” It deletes a customer record. Nobody knows which agent, which prompt, which version." },
-  { title: "EU AI Act / SOC 2 evidence gaps", desc: "Auditors ask for agent action logs. You hand them a Slack thread and a `console.log`." },
+  { title: "Prompt injection in prod", desc: "Someone slips an instruction into a support ticket and your agent wires $50k. With no runtime gate, your bank tells you about it on Monday." },
+  { title: "Agents with way too much access", desc: "“Just give it admin for now.” Six weeks later it deletes a customer row and nobody can say which prompt, which model version, or which run did it." },
+  { title: "Auditors asking for evidence you don't have", desc: "SOC 2 wants agent action logs. EU AI Act wants traceability. Right now you've got console.log and a screenshot." },
 ];
 
 export default function Landing() {
@@ -72,56 +72,55 @@ export default function Landing() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-mesh" />
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-grid pointer-events-none" />
         <div className="container mx-auto relative px-4 py-20 md:py-28">
-          <div className="max-w-4xl mx-auto text-center animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border text-xs font-medium text-muted-foreground mb-6">
-              <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-              Now in private beta · Built on the open Agent Manifest spec
+          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-border text-xs font-medium text-muted-foreground mb-6">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" />
+              Private beta · open Agent Manifest spec
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-              The <span className="text-gradient">runtime control plane</span><br/>
-              for AI agents.
+              A firewall for your<br/>
+              AI agents.
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Stop AI agents from doing what they shouldn't. AgentGate sits between every agent and your app — enforcing scopes, requiring human approval for high-risk actions, and producing the audit trail your CISO and your auditors need.
+            <p className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
+              Your agents are already calling APIs in production. AgentGate sits in front of them — checks who's calling, blocks what shouldn't go through, pauses anything risky for a human, and writes the whole thing down.
             </p>
-          <div className="mt-8 flex flex-wrap gap-3 justify-center">
-              <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
-                <Link to="/auth?mode=signup">Start governing agents <ArrowRight className="ml-2 h-4 w-4" /></Link>
+            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+              <Button size="lg" asChild className="shadow-elegant">
+                <Link to="/auth?mode=signup">Get started <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/getting-started">Try it in 5 minutes →</Link>
+                <Link to="/getting-started">Try it in 5 minutes</Link>
               </Button>
               <Button size="lg" variant="ghost" asChild>
-                <Link to="/validator">Validate your manifest</Link>
+                <Link to="/validator">Validate a manifest</Link>
               </Button>
             </div>
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-muted-foreground justify-center">
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> SOC 2-ready audit logs</div>
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground justify-center">
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Per-agent tokens</div>
               <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Default-deny scopes</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Human-in-the-loop approvals</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> EU AI Act evidence</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Human approval mid-call</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Exportable audit log</div>
             </div>
           </div>
 
           {/* Visual: terminal-style flow card */}
-          <div className="relative mt-16 max-w-4xl mx-auto animate-fade-in-slow">
-            <div className="absolute -inset-4 bg-gradient-hero opacity-20 blur-3xl rounded-full" />
-            <div className="relative rounded-2xl border border-border bg-card shadow-elegant p-6 font-mono text-xs">
-              <div className="flex items-center gap-1.5 mb-4">
-                <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-warning/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-success/60" />
-                <span className="ml-2 text-muted-foreground">POST /v1/invoke</span>
+          <div className="relative mt-16 max-w-3xl mx-auto animate-fade-in-slow">
+            <div className="relative rounded-lg border border-border bg-card shadow-elegant overflow-hidden">
+              <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-secondary/60">
+                <span className="h-2.5 w-2.5 rounded-full bg-destructive/50" />
+                <span className="h-2.5 w-2.5 rounded-full bg-warning/50" />
+                <span className="h-2.5 w-2.5 rounded-full bg-success/50" />
+                <span className="ml-3 text-xs text-muted-foreground font-mono">POST /v1/invoke</span>
               </div>
-              <div className="space-y-2 text-foreground/80 leading-relaxed">
-                <div><span className="text-muted-foreground">→</span> agent <span className="text-primary">agent://openai/operator</span> requests <span className="text-accent">refund_order</span> ($1,240)</div>
-                <div><span className="text-success">✓</span> identity verified · token in scope · <span className="text-warning">amount &gt; threshold</span></div>
-                <div><span className="text-warning">⏸</span> queued for human approval · <code>approval_id: ap_b7f2…</code></div>
-                <div><span className="text-success">✓</span> approved by <span className="text-primary">finance@acme.com</span> in 42s</div>
-                <div><span className="text-success">✓</span> forwarded · audit log <code>au_9d3e…</code> written</div>
+              <div className="p-5 font-mono text-xs space-y-1.5 text-foreground/85 leading-relaxed">
+                <div><span className="text-muted-foreground">→</span> <span className="text-foreground">agent://openai/operator</span> wants <span className="text-warning">refund_order</span> · $1,240</div>
+                <div><span className="text-success">✓</span> token ok · scope ok · <span className="text-warning">amount over $500 threshold</span></div>
+                <div><span className="text-warning">⏸</span> waiting on a human · <span className="text-muted-foreground">ap_b7f2…</span></div>
+                <div><span className="text-success">✓</span> approved by finance@acme.com · 42s</div>
+                <div><span className="text-success">✓</span> forwarded to your API · logged as <span className="text-muted-foreground">au_9d3e…</span></div>
               </div>
             </div>
           </div>
@@ -132,10 +131,10 @@ export default function Landing() {
       <section id="problem" className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge variant="outline" className="mb-4">The risk you can't see</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Your agents are already in production. Your governance isn't.</h2>
+            <Badge variant="outline" className="mb-4">Why now</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">Your agents shipped. The guardrails didn't.</h2>
             <p className="mt-4 text-muted-foreground">
-              Agentic features ship in weeks. The controls — identity, scope, approval, audit — usually ship in <em>quarters</em>, if at all. AgentGate closes the gap on day one.
+              Building an agent feature takes a sprint. Building the boring stuff around it — identity, scopes, approvals, logs — usually doesn't happen until something breaks. We'd rather it didn't.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -156,8 +155,8 @@ export default function Landing() {
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">Observe. Govern. Audit.</h2>
-            <p className="mt-4 text-muted-foreground">One layer between every AI agent and every app you care about.</p>
+            <h2 className="text-3xl md:text-4xl font-bold">Watch. Block. Prove.</h2>
+            <p className="mt-4 text-muted-foreground">Three things, in front of every agent call.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {pillars.map(p => (
@@ -178,9 +177,9 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <Badge variant="outline" className="mb-4">How it works</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Four steps. One endpoint. Total control.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">One endpoint. Four checks.</h2>
             <p className="mt-4 text-muted-foreground">
-              Point your agent at <code className="font-mono text-foreground">/v1/invoke</code>. We handle identity, policy, approval, and audit before anything touches your app.
+              Your agents call <code className="font-mono text-foreground">/v1/invoke</code>. We do the boring-but-critical stuff before anything reaches your backend.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
@@ -203,17 +202,17 @@ export default function Landing() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge variant="outline" className="mb-4">For CISOs and compliance leads</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">The evidence layer for the agentic enterprise.</h2>
+              <Badge variant="outline" className="mb-4">For security &amp; compliance</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold">When the auditor asks, you have an answer.</h2>
               <p className="mt-4 text-muted-foreground">
-                Regulators are catching up to AI agents fast. The EU AI Act, NIST AI RMF, and the next SOC 2 update all expect you to prove what your agents did and why. AgentGate makes that evidence a side effect of running the system.
+                EU AI Act, NIST AI RMF, the next SOC 2 — they all want the same thing: proof of what your agents did, who let them, and when. With AgentGate, that proof is just a side effect of running the system.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
-                  "Per-agent identity and revocable tokens",
-                  "Tamper-evident, exportable audit logs",
-                  "Pre-built mappings to SOC 2 CC7.2, ISO 27001 A.8.16, EU AI Act Art. 12",
-                  "Two-person approval for high-risk operations",
+                  "One token per agent. Revoke any of them in one click.",
+                  "Every call logged with payload, decision, and approver.",
+                  "Maps cleanly to SOC 2 CC7.2, ISO 27001 A.8.16, EU AI Act Art. 12.",
+                  "Two-person approval for anything you flag as high-risk.",
                 ].map(t => (
                   <li key={t} className="flex items-start gap-3">
                     <Shield className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
@@ -250,13 +249,13 @@ export default function Landing() {
       <section className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <Badge variant="outline" className="mb-4"><Github className="h-3 w-3 mr-1.5 inline" /> Open standard</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold">Built on the open <span className="text-gradient">Agent Manifest</span> spec.</h2>
+          <h2 className="text-3xl md:text-4xl font-bold">The spec is open. The lock-in isn't here.</h2>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            The category needs a standard, not a silo. We publish the Agent Manifest spec under MIT — anyone can implement it. AgentGate is the runtime that makes it enforceable.
+            We publish the Agent Manifest spec under MIT — describe your app once, anyone can build a runtime for it. We just happen to think ours is pretty good.
           </p>
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <Button size="lg" variant="outline" asChild>
-              <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> View the spec</Link>
+              <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> Read the spec</Link>
             </Button>
             <Button size="lg" variant="ghost" asChild>
               <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener">
@@ -272,21 +271,21 @@ export default function Landing() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4">For beta testers</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Don't watch a demo. <span className="text-gradient">Run one.</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Skip the demo. Run the real thing.</h2>
             <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-              Six concrete steps that exercise the full runtime — token auth, scope enforcement, denied actions, and the audit trail. Takes about 5 minutes.
+              Six steps, about five minutes, all against the live system. You'll auth a real token, get a real allow, get a real deny, and read the audit log we wrote for you.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
             {[
-              { n: "01", t: "Sign up & open dashboard", d: "Email or Google. No waitlist." },
-              { n: "02", t: "Click 'Load demo app'", d: "Seeds app, action, permission, token." },
-              { n: "03", t: "Curl /v1/invoke", d: "Real call. 200 OK with audit_id." },
-              { n: "04", t: "Trigger a deny", d: "Try an out-of-scope action — see the 403." },
-              { n: "05", t: "Inspect Logs", d: "Both calls show up with full payload." },
-              { n: "06", t: "Wire your own app", d: "Swap the demo for your real manifest." },
+              { n: "01", t: "Sign up", d: "Email or Google. You land in the dashboard, no waitlist." },
+              { n: "02", t: "Hit “Load demo app”", d: "We seed an app, an action, a permission, and a token." },
+              { n: "03", t: "Curl /v1/invoke", d: "A real call. You'll get a 200 and an audit_id." },
+              { n: "04", t: "Try a denied action", d: "Change the action name. Watch the 403 come back." },
+              { n: "05", t: "Open Logs", d: "Both calls are there, with the full payload and decision." },
+              { n: "06", t: "Plug in your own app", d: "When you're ready, swap the demo for your real manifest." },
             ].map(s => (
-              <div key={s.n} className="p-5 rounded-xl border border-border bg-card">
+              <div key={s.n} className="p-5 rounded-lg border border-border bg-card">
                 <div className="text-xs font-mono text-muted-foreground">STEP {s.n}</div>
                 <div className="mt-1 font-semibold">{s.t}</div>
                 <div className="mt-1 text-sm text-muted-foreground">{s.d}</div>
@@ -294,11 +293,11 @@ export default function Landing() {
             ))}
           </div>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
+            <Button size="lg" asChild className="shadow-elegant">
               <Link to="/getting-started">Open the walkthrough <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/auth?mode=signup">Sign up & start now</Link>
+              <Link to="/auth?mode=signup">Or just sign up</Link>
             </Button>
           </div>
         </div>
@@ -307,21 +306,20 @@ export default function Landing() {
       {/* Final CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-hero p-12 md:p-16 text-center shadow-elegant">
-            <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-hero p-12 md:p-16 text-center shadow-elegant border border-border">
             <div className="relative max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">
-                Your agents are already running. Govern them before someone else has to.
+                Your agents are running. Put something in front of them.
               </h2>
-              <p className="mt-4 text-primary-foreground/85">
-                Wire up your first agent in under 10 minutes. Free for design partners.
+              <p className="mt-4 text-primary-foreground/80">
+                First agent wired up in under ten minutes. Free for design partners while we're in beta.
               </p>
               <div className="mt-8 flex flex-wrap gap-3 justify-center">
                 <Button size="lg" variant="secondary" asChild>
                   <Link to="/auth?mode=signup">Start free <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
                 <Button size="lg" variant="ghost" asChild className="text-primary-foreground hover:bg-white/10 hover:text-primary-foreground">
-                  <a href="mailto:hello@agentgate.dev?subject=Design partner program">Talk to founders</a>
+                  <a href="mailto:hello@agentgate.dev?subject=Design partner program">Email the founders</a>
                 </Button>
               </div>
             </div>
@@ -339,7 +337,7 @@ export default function Landing() {
             <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
             <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
           </div>
-          <p>© {new Date().getFullYear()} AgentGate · The runtime control plane for AI agents.</p>
+          <p>© {new Date().getFullYear()} AgentGate · A firewall for AI agents.</p>
         </div>
       </footer>
     </div>
