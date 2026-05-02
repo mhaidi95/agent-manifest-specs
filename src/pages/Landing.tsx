@@ -177,9 +177,9 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <Badge variant="outline" className="mb-4">How it works</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Four steps. One endpoint. Total control.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">One endpoint. Four checks.</h2>
             <p className="mt-4 text-muted-foreground">
-              Point your agent at <code className="font-mono text-foreground">/v1/invoke</code>. We handle identity, policy, approval, and audit before anything touches your app.
+              Your agents call <code className="font-mono text-foreground">/v1/invoke</code>. We do the boring-but-critical stuff before anything reaches your backend.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
