@@ -1,0 +1,89 @@
+{
+  "manifest_version": "1.0",
+  "app": {
+    "name": "Acme Helpdesk",
+    "url": "https://helpdesk.acme.com",
+    "description": "Customer support ticketing platform with AI-assisted triage and resolution.",
+    "logo_url": "https://helpdesk.acme.com/logo.png"
+  },
+  "actions": [
+    {
+      "id": "search_tickets",
+      "description": "Search support tickets by customer, status, or keyword.",
+      "risk": "low",
+      "scopes": ["tickets:read"],
+      "rate_limit_per_minute": 60,
+      "parameters": {
+        "query": { "type": "string", "required": true, "description": "Search query string" },
+        "status": { "type": "string", "required": false, "description": "open | pending | closed" }
+      }
+    },
+    {
+      "id": "get_ticket",
+      "description": "Retrieve full details of a single ticket including messages and attachments.",
+      "risk": "low",
+      "scopes": ["tickets:read"],
+      "parameters": {
+        "ticket_id": { "type": "string", "required": true }
+      }
+    },
+    {
+      "id": "reply_to_ticket",
+      "description": "Post a public reply to a customer on a ticket. Reply is sent by email.",
+      "risk": "medium",
+      "scopes": ["tickets:write", "email:send"],
+      "rate_limit_per_minute": 20,
+      "parameters": {
+        "ticket_id": { "type": "string", "required": true },
+        "message": { "type": "string", "required": true },
+        "mark_resolved": { "type": "boolean", "required": false }
+      }
+    },
+    {
+      "id": "issue_refund",
+      "description": "Issue a refund to the customer associated with a ticket.",
+      "risk": "high",
+      "scopes": ["tickets:write", "payments:refund"],
+      "requires_approval": true,
+      "parameters": {
+        "ticket_id": { "type": "string", "required": true },
+        "amount_cents": { "type": "integer", "required": true, "description": "Refund amount in cents" },
+        "reason": { "type": "string", "required": true }
+      }
+    },
+    {
+      "id": "delete_customer",
+      "description": "Permanently delete a customer record and all associated tickets (GDPR erasure).",
+      "risk": "high",
+      "scopes": ["customers:delete"],
+      "requires_approval": true,
+      "parameters": {
+        "customer_id": { "type": "string", "required": true },
+        "confirmation": { "type": "string", "required": true, "description": "Must equal customer email" }
+      }
+    }
+  ],
+  "approval_rules": [
+    {
+      "when": { "action": "issue_refund", "amount_cents": { "gt": 5000 } },
+      "require": "human_approver"
+    },
+    {
+      "when": { "action": "issue_refund", "amount_cents": { "gt": 50000 } },
+      "require": "two_person"
+    },
+    {
+      "when": { "action": "delete_customer" },
+      "require": "admin_only"
+    }
+  ],
+  "agent_identity": {
+    "required": true,
+    "verification": "signed_jwt"
+  },
+  "audit": {
+    "log_all": true,
+    "retention_days": 730,
+    "export_format": "ndjson"
+  }
+}

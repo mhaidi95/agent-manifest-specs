@@ -52,6 +52,14 @@ export default function Landing() {
             <Link to="/spec" className="hover:text-foreground transition-colors">Open spec</Link>
             <Link to="/validator" className="hover:text-foreground transition-colors">Validator</Link>
             <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
+            <a
+              href="https://github.com/agentgate/agent-manifest"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-foreground transition-colors inline-flex items-center gap-1.5"
+            >
+              <Github className="h-4 w-4" /> GitHub
+            </a>
           </nav>
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild><Link to="/auth">Sign in</Link></Button>
@@ -83,7 +91,10 @@ export default function Landing() {
                 <Link to="/auth?mode=signup">Start governing agents <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/validator">Validate your manifest →</Link>
+                <a href="#demo">Watch the demo →</a>
+              </Button>
+              <Button size="lg" variant="ghost" asChild>
+                <Link to="/validator">Validate your manifest</Link>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-muted-foreground justify-center">
