@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, AppWindow, Zap, Shield, GitBranch, ScrollText, LogOut, KeyRound, Inbox } from "lucide-react";
+import { LayoutDashboard, AppWindow, Zap, Shield, GitBranch, ScrollText, LogOut, KeyRound, Inbox, BarChart3 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter, useSidebar,
@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const items = [
   { title: "Overview", url: "/app", icon: LayoutDashboard, end: true },
@@ -27,6 +28,7 @@ export function AppSidebar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
 
   const isActive = (url: string, end?: boolean) => end ? pathname === url : pathname.startsWith(url);
 
@@ -62,6 +64,23 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={isActive("/app/admin")}>
+                    <NavLink to="/app/admin" className="flex items-center gap-2">
+                      <BarChart3 className="h-4 w-4" />
+                      {!collapsed && <span>Metrics</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border p-2">
         {!collapsed && user && (
