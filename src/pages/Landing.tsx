@@ -91,6 +91,9 @@ export default function Landing() {
                 <Link to="/auth?mode=signup">Start governing agents <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
+                <Link to="/getting-started">Try it in 5 minutes →</Link>
+              </Button>
+              <Button size="lg" variant="ghost" asChild>
                 <Link to="/validator">Validate your manifest</Link>
               </Button>
             </div>
