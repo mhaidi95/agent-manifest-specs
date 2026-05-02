@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "./pages/Landing";
 import Spec from "./pages/Spec";
+import Validator from "./pages/Validator";
+import BadgePage from "./pages/BadgePage";
+import Docs from "./pages/Docs";
 import Auth from "./pages/Auth";
 import AppLayout from "./pages/app/AppLayout";
 import Overview from "./pages/app/Overview";
@@ -28,6 +31,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/spec" element={<Spec />} />
+          <Route path="/validator" element={<Validator />} />
+          <Route path="/badge" element={<BadgePage />} />
+          <Route path="/docs" element={<Docs />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/app" element={<AppLayout />}>
             <Route index element={<Overview />} />
