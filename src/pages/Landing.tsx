@@ -50,7 +50,8 @@ export default function Landing() {
             <a href="#problem" className="hover:text-foreground transition-colors">Problem</a>
             <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
             <Link to="/spec" className="hover:text-foreground transition-colors">Open spec</Link>
-            <a href="#compliance" className="hover:text-foreground transition-colors">Compliance</a>
+            <Link to="/validator" className="hover:text-foreground transition-colors">Validator</Link>
+            <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
           </nav>
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild><Link to="/auth">Sign in</Link></Button>
@@ -77,12 +78,12 @@ export default function Landing() {
             <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Stop AI agents from doing what they shouldn't. AgentGate sits between every agent and your app — enforcing scopes, requiring human approval for high-risk actions, and producing the audit trail your CISO and your auditors need.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+          <div className="mt-8 flex flex-wrap gap-3 justify-center">
               <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
                 <Link to="/auth?mode=signup">Start governing agents <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/spec">Read the open spec</Link>
+                <Link to="/validator">Validate your manifest →</Link>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-muted-foreground justify-center">
@@ -282,9 +283,11 @@ export default function Landing() {
       <footer className="border-t border-border py-8">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <Logo className="text-base" />
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 flex-wrap justify-center">
             <Link to="/spec" className="hover:text-foreground transition-colors">Spec</Link>
-            <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
+            <Link to="/validator" className="hover:text-foreground transition-colors">Validator</Link>
+            <Link to="/badge" className="hover:text-foreground transition-colors">Badge</Link>
+            <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
             <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener" className="hover:text-foreground transition-colors">GitHub</a>
           </div>
           <p>© {new Date().getFullYear()} AgentGate · The runtime control plane for AI agents.</p>
