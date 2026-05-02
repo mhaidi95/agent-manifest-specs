@@ -72,56 +72,55 @@ export default function Landing() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-mesh" />
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-grid pointer-events-none" />
         <div className="container mx-auto relative px-4 py-20 md:py-28">
-          <div className="max-w-4xl mx-auto text-center animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border text-xs font-medium text-muted-foreground mb-6">
-              <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-              Now in private beta · Built on the open Agent Manifest spec
+          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-border text-xs font-medium text-muted-foreground mb-6">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" />
+              Private beta · open Agent Manifest spec
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-              The <span className="text-gradient">runtime control plane</span><br/>
-              for AI agents.
+              A firewall for your<br/>
+              AI agents.
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Stop AI agents from doing what they shouldn't. AgentGate sits between every agent and your app — enforcing scopes, requiring human approval for high-risk actions, and producing the audit trail your CISO and your auditors need.
+            <p className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
+              Your agents are already calling APIs in production. AgentGate sits in front of them — checks who's calling, blocks what shouldn't go through, pauses anything risky for a human, and writes the whole thing down.
             </p>
-          <div className="mt-8 flex flex-wrap gap-3 justify-center">
-              <Button size="lg" asChild className="bg-gradient-hero hover:opacity-90 shadow-elegant">
-                <Link to="/auth?mode=signup">Start governing agents <ArrowRight className="ml-2 h-4 w-4" /></Link>
+            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+              <Button size="lg" asChild className="shadow-elegant">
+                <Link to="/auth?mode=signup">Get started <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/getting-started">Try it in 5 minutes →</Link>
+                <Link to="/getting-started">Try it in 5 minutes</Link>
               </Button>
               <Button size="lg" variant="ghost" asChild>
-                <Link to="/validator">Validate your manifest</Link>
+                <Link to="/validator">Validate a manifest</Link>
               </Button>
             </div>
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-muted-foreground justify-center">
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> SOC 2-ready audit logs</div>
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground justify-center">
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Per-agent tokens</div>
               <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Default-deny scopes</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Human-in-the-loop approvals</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> EU AI Act evidence</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Human approval mid-call</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Exportable audit log</div>
             </div>
           </div>
 
           {/* Visual: terminal-style flow card */}
-          <div className="relative mt-16 max-w-4xl mx-auto animate-fade-in-slow">
-            <div className="absolute -inset-4 bg-gradient-hero opacity-20 blur-3xl rounded-full" />
-            <div className="relative rounded-2xl border border-border bg-card shadow-elegant p-6 font-mono text-xs">
-              <div className="flex items-center gap-1.5 mb-4">
-                <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-warning/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-success/60" />
-                <span className="ml-2 text-muted-foreground">POST /v1/invoke</span>
+          <div className="relative mt-16 max-w-3xl mx-auto animate-fade-in-slow">
+            <div className="relative rounded-lg border border-border bg-card shadow-elegant overflow-hidden">
+              <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-secondary/60">
+                <span className="h-2.5 w-2.5 rounded-full bg-destructive/50" />
+                <span className="h-2.5 w-2.5 rounded-full bg-warning/50" />
+                <span className="h-2.5 w-2.5 rounded-full bg-success/50" />
+                <span className="ml-3 text-xs text-muted-foreground font-mono">POST /v1/invoke</span>
               </div>
-              <div className="space-y-2 text-foreground/80 leading-relaxed">
-                <div><span className="text-muted-foreground">→</span> agent <span className="text-primary">agent://openai/operator</span> requests <span className="text-accent">refund_order</span> ($1,240)</div>
-                <div><span className="text-success">✓</span> identity verified · token in scope · <span className="text-warning">amount &gt; threshold</span></div>
-                <div><span className="text-warning">⏸</span> queued for human approval · <code>approval_id: ap_b7f2…</code></div>
-                <div><span className="text-success">✓</span> approved by <span className="text-primary">finance@acme.com</span> in 42s</div>
-                <div><span className="text-success">✓</span> forwarded · audit log <code>au_9d3e…</code> written</div>
+              <div className="p-5 font-mono text-xs space-y-1.5 text-foreground/85 leading-relaxed">
+                <div><span className="text-muted-foreground">→</span> <span className="text-foreground">agent://openai/operator</span> wants <span className="text-warning">refund_order</span> · $1,240</div>
+                <div><span className="text-success">✓</span> token ok · scope ok · <span className="text-warning">amount over $500 threshold</span></div>
+                <div><span className="text-warning">⏸</span> waiting on a human · <span className="text-muted-foreground">ap_b7f2…</span></div>
+                <div><span className="text-success">✓</span> approved by finance@acme.com · 42s</div>
+                <div><span className="text-success">✓</span> forwarded to your API · logged as <span className="text-muted-foreground">au_9d3e…</span></div>
               </div>
             </div>
           </div>
