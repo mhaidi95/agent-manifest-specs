@@ -131,10 +131,10 @@ export default function Landing() {
       <section id="problem" className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge variant="outline" className="mb-4">The risk you can't see</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Your agents are already in production. Your governance isn't.</h2>
+            <Badge variant="outline" className="mb-4">Why now</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">Your agents shipped. The guardrails didn't.</h2>
             <p className="mt-4 text-muted-foreground">
-              Agentic features ship in weeks. The controls — identity, scope, approval, audit — usually ship in <em>quarters</em>, if at all. AgentGate closes the gap on day one.
+              Building an agent feature takes a sprint. Building the boring stuff around it — identity, scopes, approvals, logs — usually doesn't happen until something breaks. We'd rather it didn't.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
