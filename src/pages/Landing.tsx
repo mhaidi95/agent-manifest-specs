@@ -11,32 +11,32 @@ import {
 const pillars = [
   {
     icon: Eye,
-    title: "Every agent action, observed",
-    desc: "A single proxy sits in front of every AI-driven request. Nothing reaches your app until AgentGate sees it, classifies it, and records it.",
+    title: "See what your agents actually do",
+    desc: "One proxy in front of every agent call. Nothing hits your backend until we've seen the request, classified it, and written it down.",
   },
   {
     icon: Lock,
-    title: "Every action, governed",
-    desc: "Per-agent tokens, scoped permissions, default-deny. High-risk actions are paused mid-flight until a human approves.",
+    title: "Stop the calls that shouldn't ship",
+    desc: "Each agent gets its own token and a tight set of scopes. Anything risky — refunds, deletes, big amounts — pauses until a human says yes.",
   },
   {
     icon: ScrollText,
-    title: "Every event, audited",
-    desc: "Immutable, signed audit logs of who (which agent) did what, when, and why — exportable for SOC 2, ISO 27001, EU AI Act, and your board.",
+    title: "Hand auditors a real log, not a Slack thread",
+    desc: "Every decision is recorded with the agent, the action, the params, and who approved it. Export it for SOC 2, ISO 27001, or the EU AI Act.",
   },
 ];
 
 const flow = [
-  { icon: Bot, title: "Agent calls /v1/invoke", desc: "Your AI agents — internal or external — point at one endpoint." },
-  { icon: KeyRound, title: "Token + scope check", desc: "AgentGate verifies the agent identity and confirms the action is in scope." },
-  { icon: Workflow, title: "Approval rules fire", desc: "High-risk or high-value actions are paused for human review, automatically." },
-  { icon: Activity, title: "Audited & forwarded", desc: "Result is logged immutably and (optionally) forwarded to your real backend." },
+  { icon: Bot, title: "Your agent hits one URL", desc: "Point any agent — internal, OpenAI, Anthropic, your own — at /v1/invoke." },
+  { icon: KeyRound, title: "We check who it is", desc: "Token verified, agent identity confirmed, action checked against its allowed scopes." },
+  { icon: Workflow, title: "Approval if needed", desc: "If a rule fires (amount > X, action = delete, etc.), the call waits for a human." },
+  { icon: Activity, title: "Logged, then forwarded", desc: "The decision is written to the audit log. If approved, the call goes through to your backend." },
 ];
 
 const risks = [
-  { title: "Prompt injection in production", desc: "An attacker convinces your agent to wire $50k. Without a runtime gate, you find out from your bank." },
-  { title: "Silent over-permissioned agents", desc: "Your agent has admin scope “just in case.” It deletes a customer record. Nobody knows which agent, which prompt, which version." },
-  { title: "EU AI Act / SOC 2 evidence gaps", desc: "Auditors ask for agent action logs. You hand them a Slack thread and a `console.log`." },
+  { title: "Prompt injection in prod", desc: "Someone slips an instruction into a support ticket and your agent wires $50k. With no runtime gate, your bank tells you about it on Monday." },
+  { title: "Agents with way too much access", desc: "“Just give it admin for now.” Six weeks later it deletes a customer row and nobody can say which prompt, which model version, or which run did it." },
+  { title: "Auditors asking for evidence you don't have", desc: "SOC 2 wants agent action logs. EU AI Act wants traceability. Right now you've got console.log and a screenshot." },
 ];
 
 export default function Landing() {
