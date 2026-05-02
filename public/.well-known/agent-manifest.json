@@ -1,0 +1,92 @@
+{
+  "manifest_version": "1.0",
+  "app": {
+    "name": "AgentGate",
+    "url": "https://agentgate.lovable.app",
+    "description": "Runtime control plane for AI agents. Enforces scopes, requires human approval for high-risk actions, and produces immutable audit logs for SOC 2, ISO 27001, and the EU AI Act.",
+    "logo_url": "https://agentgate.lovable.app/og-image.jpg"
+  },
+  "actions": [
+    {
+      "id": "list_apps",
+      "description": "List all connected apps the authenticated user owns.",
+      "risk": "low",
+      "scopes": ["apps:read"],
+      "rate_limit_per_minute": 60
+    },
+    {
+      "id": "get_app",
+      "description": "Retrieve a single connected app by id, including its declared actions and permissions.",
+      "risk": "low",
+      "scopes": ["apps:read"],
+      "parameters": {
+        "app_id": { "type": "string", "required": true }
+      }
+    },
+    {
+      "id": "list_audit_logs",
+      "description": "Return audit log entries for the authenticated user, optionally filtered by app or status.",
+      "risk": "low",
+      "scopes": ["audit:read"],
+      "parameters": {
+        "app_id": { "type": "string", "required": false },
+        "status": { "type": "string", "required": false, "description": "success | blocked | pending" },
+        "limit": { "type": "integer", "required": false }
+      }
+    },
+    {
+      "id": "mint_token",
+      "description": "Mint a new agent token bound to a specific app and scope set. Returns the token once; it is hashed at rest.",
+      "risk": "medium",
+      "scopes": ["tokens:write"],
+      "rate_limit_per_minute": 10,
+      "parameters": {
+        "app_id": { "type": "string", "required": true },
+        "label": { "type": "string", "required": true },
+        "agent_identity": { "type": "string", "required": true, "description": "e.g. agent://openai/operator" },
+        "allowed_scopes": { "type": "array", "required": true }
+      }
+    },
+    {
+      "id": "approve_pending",
+      "description": "Approve a pending high-risk action that was queued by /v1/invoke.",
+      "risk": "high",
+      "scopes": ["approvals:write"],
+      "requires_approval": true,
+      "parameters": {
+        "approval_id": { "type": "string", "required": true },
+        "note": { "type": "string", "required": false }
+      }
+    },
+    {
+      "id": "revoke_token",
+      "description": "Permanently revoke an agent token. Future calls with this token return 401.",
+      "risk": "high",
+      "scopes": ["tokens:write"],
+      "requires_approval": true,
+      "parameters": {
+        "token_id": { "type": "string", "required": true },
+        "reason": { "type": "string", "required": true }
+      }
+    }
+  ],
+  "approval_rules": [
+    {
+      "when": { "action": "approve_pending" },
+      "require": "human_approver"
+    },
+    {
+      "when": { "action": "revoke_token" },
+      "require": "admin_only"
+    }
+  ],
+  "agent_identity": {
+    "required": true,
+    "verification": "bearer_token"
+  },
+  "audit": {
+    "log_all": true,
+    "retention_days": 730,
+    "export_format": "ndjson"
+  }
+}
