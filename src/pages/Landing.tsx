@@ -124,26 +124,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Demo video */}
-      <section id="demo" className="py-12 md:py-16">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="relative rounded-3xl overflow-hidden border border-border shadow-elegant bg-card">
-            <div className="absolute -inset-1 bg-gradient-hero opacity-20 blur-3xl rounded-3xl pointer-events-none" />
-            <video
-              className="relative w-full h-auto block"
-              src="/video/intro.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="AgentGate product overview video"
-            />
-          </div>
-          <p className="text-center text-xs text-muted-foreground mt-4">30-second overview · sound off</p>
-        </div>
-      </section>
-
 
       <section id="problem" className="py-20 md:py-28 bg-gradient-soft border-y border-border">
         <div className="container mx-auto px-4">
