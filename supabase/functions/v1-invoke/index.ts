@@ -2,6 +2,7 @@
 // Flow: validate token → resolve action → enforce permissions → enforce approval rules
 //       → (forward or queue) → write audit log → return structured result.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { postApprovalMessage, isSlackConnected } from "../_shared/slack.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -151,11 +152,58 @@ Deno.serve(async (req) => {
       .select()
       .single();
 
-    await audit("pending", { approval_id: approval?.id, reason: approvalReason });
+    // Best-effort: post to Slack if the app has a configured channel and the connector is linked.
+    let slackPosted = false;
+    let slackError: string | null = null;
+    if (approval && isSlackConnected()) {
+      const { data: app } = await sb
+        .from("connected_apps")
+        .select("name, slack_channel_id")
+        .eq("id", token.app_id)
+        .maybeSingle();
+      if (app?.slack_channel_id) {
+        const origin = req.headers.get("origin") || "https://agentgate.lovable.app";
+        const dashUrl = `${origin}/app/approvals?id=${approval.id}`;
+        try {
+          const res = await postApprovalMessage({
+            channel: app.slack_channel_id,
+            approvalId: approval.id,
+            appName: app.name,
+            actionName: action,
+            agentIdentity,
+            payload: payload ?? null,
+            reason: approvalReason,
+            appUrl: dashUrl,
+          });
+          if (res.ok) {
+            slackPosted = true;
+            await sb
+              .from("pending_approvals")
+              .update({
+                slack_message_ts: (res as any).ts ?? null,
+                slack_channel_id: app.slack_channel_id,
+              })
+              .eq("id", approval.id);
+          } else {
+            slackError = (res as any).error ?? "unknown";
+          }
+        } catch (e) {
+          slackError = (e as Error).message;
+        }
+      }
+    }
+
+    await audit("pending", {
+      approval_id: approval?.id,
+      reason: approvalReason,
+      slack_posted: slackPosted,
+      slack_error: slackError,
+    });
     return json(202, {
       status: "pending_approval",
       approval_id: approval?.id,
       reason: approvalReason,
+      slack_notified: slackPosted,
       message: "Action queued for human approval. Poll or subscribe for resolution.",
     });
   }
