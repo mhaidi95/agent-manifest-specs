@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Plus, Sparkles, AppWindow, Trash2, Loader2 } from "lucide-react";
+import { Plus, Sparkles, AppWindow, Trash2, Loader2, Slack } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { z } from "zod";
 
 type App = {
@@ -19,7 +20,11 @@ type App = {
   manifest: any;
   status: string;
   created_at: string;
+  slack_channel_id: string | null;
+  slack_channel_name: string | null;
 };
+
+type SlackChannel = { id: string; name: string; is_private: boolean };
 
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -36,12 +41,27 @@ export default function Apps() {
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [generatingId, setGeneratingId] = useState<string | null>(null);
+  const [slackConnected, setSlackConnected] = useState<boolean | null>(null);
+  const [slackChannels, setSlackChannels] = useState<SlackChannel[]>([]);
 
   const load = async () => {
     const { data } = await supabase.from("connected_apps").select("*").order("created_at", { ascending: false });
     setApps((data ?? []) as App[]);
   };
-  useEffect(() => { if (user) load(); }, [user]);
+
+  const loadSlack = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke("slack-channels");
+      if (error) throw error;
+      setSlackConnected(!!data?.connected);
+      setSlackChannels(data?.channels ?? []);
+    } catch {
+      setSlackConnected(false);
+      setSlackChannels([]);
+    }
+  };
+
+  useEffect(() => { if (user) { load(); loadSlack(); } }, [user]);
 
   const create = async () => {
     const parsed = schema.safeParse({ name, base_url: baseUrl, description });
