@@ -139,6 +139,20 @@ export default function Apps() {
     load();
   };
 
+  const setSlackChannel = async (appId: string, channelId: string) => {
+    const channel = slackChannels.find(c => c.id === channelId);
+    const { error } = await supabase
+      .from("connected_apps")
+      .update({
+        slack_channel_id: channelId === "__none__" ? null : channelId,
+        slack_channel_name: channelId === "__none__" ? null : channel?.name ?? null,
+      })
+      .eq("id", appId);
+    if (error) { toast.error(error.message); return; }
+    toast.success(channelId === "__none__" ? "Slack channel unlinked" : `Approvals will post to #${channel?.name}`);
+    load();
+  };
+
   return (
     <div className="container max-w-6xl mx-auto p-6 md:p-10">
       <div className="flex items-center justify-between mb-8">
@@ -176,6 +190,25 @@ export default function Apps() {
         </Dialog>
       </div>
 
+      <div className="rounded-xl border border-border bg-card p-4 mb-6 flex items-center gap-3 flex-wrap">
+        <Slack className="h-5 w-5 text-primary" />
+        <div className="text-sm">
+          <span className="font-medium">Slack approvals:</span>{" "}
+          {slackConnected === null ? (
+            <span className="text-muted-foreground">Checking…</span>
+          ) : slackConnected ? (
+            <span className="text-success">Connected · {slackChannels.length} channels available</span>
+          ) : (
+            <span className="text-muted-foreground">Not connected — high-risk actions will only appear in this dashboard.</span>
+          )}
+        </div>
+        {slackConnected === false && (
+          <span className="text-xs text-muted-foreground ml-auto">
+            Add the Slack connector from <span className="font-mono">Connectors</span> in the workspace sidebar to enable Slack approvals.
+          </span>
+        )}
+      </div>
+
       {apps.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border p-16 text-center">
           <AppWindow className="h-10 w-10 mx-auto text-muted-foreground" />
@@ -205,6 +238,30 @@ export default function Apps() {
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>
               </div>
+
+              {slackConnected && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <Label className="text-xs flex items-center gap-1.5 mb-2">
+                    <Slack className="h-3 w-3" /> Approval channel
+                  </Label>
+                  <Select
+                    value={app.slack_channel_id ?? "__none__"}
+                    onValueChange={(v) => setSlackChannel(app.id, v)}
+                  >
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue placeholder="Pick a channel…" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__">— None (dashboard only) —</SelectItem>
+                      {slackChannels.map(c => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.is_private ? "🔒 " : "# "}{c.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
               {app.manifest && (
                 <details className="mt-4">
                   <summary className="text-xs font-mono text-muted-foreground cursor-pointer hover:text-foreground">View manifest.json</summary>
