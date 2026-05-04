@@ -3,5 +3,5 @@ project_id = "vxuvjjceqpukfyytwddf"
 [functions.v1-invoke]
 verify_jwt = false
 
-[functions.push-spec-readme]
+[functions.mcp]
 verify_jwt = false

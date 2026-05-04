@@ -193,7 +193,48 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* MCP adapter */}
+      <section id="mcp" className="py-20 md:py-28">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <Badge variant="outline" className="mb-4">New · MCP adapter</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold">Plug Claude, Cursor, or any MCP client in directly.</h2>
+              <p className="mt-4 text-muted-foreground">
+                AgentGate also speaks the Model Context Protocol. Every action you've declared shows up as a real MCP tool — with the exact same scope checks, approval rules, and audit log. Drop one URL into Claude Desktop and you're done.
+              </p>
+              <ul className="mt-6 space-y-3 text-sm">
+                <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" /> Tools auto-generated from your declared actions</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" /> Risky tool calls pause for human approval — in Slack or in-app</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" /> Same token, same logs, same governance as the HTTP gateway</li>
+              </ul>
+            </div>
+            <div className="p-6 rounded-2xl bg-card border border-border shadow-elegant font-mono text-xs">
+              <div className="flex items-center gap-1.5 mb-4">
+                <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
+                <span className="h-2.5 w-2.5 rounded-full bg-warning/60" />
+                <span className="h-2.5 w-2.5 rounded-full bg-success/60" />
+                <span className="ml-2 text-muted-foreground">claude_desktop_config.json</span>
+              </div>
+              <pre className="text-foreground/80 leading-relaxed overflow-x-auto whitespace-pre-wrap">
+{`{
+  "mcpServers": {
+    "agentgate": {
+      "url": "https://agentgate.lovable.app/functions/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer bai_..."
+      }
+    }
+  }
+}`}
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Compliance */}
+
       <section id="compliance" className="py-20 md:py-28">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
