@@ -202,6 +202,9 @@ export type Database = {
           id: string
           manifest: Json | null
           name: string
+          slack_channel_id: string | null
+          slack_channel_name: string | null
+          slack_team_id: string | null
           status: string
           updated_at: string
           user_id: string
@@ -213,6 +216,9 @@ export type Database = {
           id?: string
           manifest?: Json | null
           name: string
+          slack_channel_id?: string | null
+          slack_channel_name?: string | null
+          slack_team_id?: string | null
           status?: string
           updated_at?: string
           user_id: string
@@ -224,6 +230,9 @@ export type Database = {
           id?: string
           manifest?: Json | null
           name?: string
+          slack_channel_id?: string | null
+          slack_channel_name?: string | null
+          slack_team_id?: string | null
           status?: string
           updated_at?: string
           user_id?: string
@@ -238,10 +247,13 @@ export type Database = {
           created_at: string
           decided_at: string | null
           decided_by: string | null
+          decided_by_slack: string | null
           expires_at: string
           id: string
           payload: Json | null
           reason: string | null
+          slack_channel_id: string | null
+          slack_message_ts: string | null
           status: string
           token_id: string | null
           user_id: string
@@ -253,10 +265,13 @@ export type Database = {
           created_at?: string
           decided_at?: string | null
           decided_by?: string | null
+          decided_by_slack?: string | null
           expires_at?: string
           id?: string
           payload?: Json | null
           reason?: string | null
+          slack_channel_id?: string | null
+          slack_message_ts?: string | null
           status?: string
           token_id?: string | null
           user_id: string
@@ -268,10 +283,13 @@ export type Database = {
           created_at?: string
           decided_at?: string | null
           decided_by?: string | null
+          decided_by_slack?: string | null
           expires_at?: string
           id?: string
           payload?: Json | null
           reason?: string | null
+          slack_channel_id?: string | null
+          slack_message_ts?: string | null
           status?: string
           token_id?: string | null
           user_id?: string
