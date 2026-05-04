@@ -1,27 +1,29 @@
 # Agent Manifest Specification
 
-> An open standard for describing how AI agents can safely interact with web applications.
+> An open standard for declaring how AI agents can safely take actions in web applications — with identity, scopes, approvals, and audit built in.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Spec Version](https://img.shields.io/badge/spec-v1.0--draft-orange.svg)](./spec/v1.md)
 [![Status](https://img.shields.io/badge/status-RFC-yellow.svg)]()
 [![Validator](https://img.shields.io/badge/validator-live-green.svg)](https://agentgate.lovable.app/validator)
 
-## Why this exists
+## The problem
 
-Today, AI agents (OpenAI Operator, Anthropic Computer Use, Google Mariner, and the next 100 to come) interact with web apps the same way humans do — by clicking buttons and reading screens.
+Your team is being asked to let AI agents take real actions in production — refunds, ticket updates, CRM writes, account changes. Most teams stop at read-only because there's no clean way to **approve, restrict, log, and audit** what an agent is allowed to do.
 
-This is **fragile, slow, unsafe, and unauditable**.
+OAuth scopes control *access*. They don't control *behavior*. "Allow this agent to refund — unless the amount > $500, then ask Sarah" is the gap.
 
-The **Agent Manifest** is a small JSON document a SaaS app publishes to declare:
+## What this spec is
 
-- the **actions** agents can take
-- the **permissions** required for each
-- the **approval rules** for high-risk operations
-- the **identity** agents must present
+The **Agent Manifest** is a small JSON document an application publishes that declares, in machine-readable form:
+
+- the **actions** an agent can take
+- the **scopes** required for each
+- the **approval rules** that gate high-risk operations
+- the **identity** the agent must present
 - the **audit** guarantees provided
 
-Think of it as **OpenAPI for the agent economy** — but with safety, identity, and governance built in from day one.
+Think of it as the contract between your app and any agent that wants to act inside it.
 
 ## Quick example
 
@@ -49,12 +51,23 @@ Think of it as **OpenAPI for the agent economy** — but with safety, identity, 
 
 A live, dogfooded example: <https://agentgate.lovable.app/.well-known/agent-manifest.json>
 
+## Reference implementation: AgentGate
+
+A spec is just paper without a runtime. **[AgentGate](https://agentgate.lovable.app)** is the open reference implementation:
+
+- a `/v1/invoke` proxy that sits in front of your APIs
+- per-agent scoped tokens
+- **Slack-based approvals** for risky actions
+- immutable audit log
+
+You can adopt the spec without AgentGate, and you can use AgentGate without publishing a public manifest.
+
 ## Adopt the spec in 4 steps
 
-1. **Generate** a manifest for your app — by hand, or with [AgentGate](https://agentgate.lovable.app).
+1. **Describe** your agent-callable actions in a manifest (by hand or with [AgentGate](https://agentgate.lovable.app)).
 2. **Host** it at `https://yourapp.com/.well-known/agent-manifest.json`.
-3. **Validate** it against `schema/manifest.v1.json` (or paste it into the [online validator](https://agentgate.lovable.app/validator)).
-4. **Display** the [*Agent-Ready* badge](https://agentgate.lovable.app/badge) on your site.
+3. **Validate** against `schema/manifest.v1.json` — or paste into the [online validator](https://agentgate.lovable.app/validator).
+4. **Enforce** it at runtime (with AgentGate, or your own gateway).
 
 ## Repository layout
 
@@ -68,42 +81,37 @@ examples/                        Real-world example manifests
   └── stripe.manifest.json
 ADOPTERS.md                      Companies publishing a manifest
 CONTRIBUTING.md                  How to propose changes
-CODE_OF_CONDUCT.md
 LICENSE                          MIT
 ```
 
 ## Core principles
 
 - **Default-deny** — nothing is exposed unless explicitly declared
-- **Risk-classified** — every action carries a `low` / `medium` / `high` risk level
+- **Risk-classified** — every action carries `low` / `medium` / `high`
 - **Identity-aware** — agents must be cryptographically identified
 - **Approval-ready** — high-risk actions can require a human in the loop
 - **Auditable** — every call is logged with identity, payload, and outcome
 
-## Who is this for?
+## Who this is for
 
-- **SaaS builders** who want to be discoverable & trusted by AI agents
-- **Agent developers** who need a standard interface across thousands of apps
-- **CISOs & compliance teams** who need to govern agent activity across their stack
+Primary audience: **platform & security engineers** at companies running agent pilots who need to safely turn agents on in production.
+
+Secondary: agent framework builders who want a standard interface across many SaaS apps; CISOs & compliance teams who need to govern agent activity across their stack.
 
 ## Status
 
-This spec is at **v1.0 Draft / RFC**. We're collecting feedback from agent builders, SaaS platforms, and security teams before declaring v1.0 stable.
+**v1.0 Draft / RFC.** Collecting feedback from agent builders, security engineers, and SaaS platform teams before declaring v1.0 stable.
 
-**Want to help shape it?** Open an issue, propose a change in [CONTRIBUTING.md](./CONTRIBUTING.md), or contribute an example manifest for an app you use.
+Open an issue with what's missing, what's broken, or what you'd kill.
 
 ## Adopters
 
 See [ADOPTERS.md](./ADOPTERS.md). Be the first — open a PR adding your logo.
 
-## Reference implementation
-
-A working runtime that consumes this spec — including a `/v1/invoke` enforcement endpoint, scope checks, approval queues, and audit logs — is available at [agentgate.lovable.app](https://agentgate.lovable.app).
-
 ## License
 
 MIT — use it, fork it, ship it. See [LICENSE](./LICENSE).
 
-## Maintainers
+## Maintainer
 
-[AgentGate](https://agentgate.lovable.app) — the governance layer for the agent economy.
+[AgentGate](https://agentgate.lovable.app) — the approval & audit gateway for the agent economy.
