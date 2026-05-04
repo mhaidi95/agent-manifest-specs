@@ -78,31 +78,28 @@ export default function Landing() {
           <div className="max-w-3xl mx-auto text-center animate-fade-in">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-border text-xs font-medium text-muted-foreground mb-6">
               <span className="h-1.5 w-1.5 rounded-full bg-success" />
-              Private beta · open Agent Manifest spec
+              For platform &amp; security teams · private beta
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-              A firewall for your<br/>
-              AI agents.
+              The approval &amp; audit gateway<br/>
+              for AI agents.
             </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-              Your agents are already calling APIs in production. AgentGate sits in front of them — checks who's calling, blocks what shouldn't go through, pauses anything risky for a human, and writes the whole thing down.
+            <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
+              Block, approve, and log every risky agent action before it touches production. Drop-in proxy. Works in front of MCP servers, OpenAI Agents, Claude tools, or any HTTP API.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 justify-center">
               <Button size="lg" asChild className="shadow-elegant">
-                <Link to="/auth?mode=signup">Get started <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Link to="/getting-started">Watch a refund get approved <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/getting-started">Try it in 5 minutes</Link>
-              </Button>
-              <Button size="lg" variant="ghost" asChild>
-                <Link to="/validator">Validate a manifest</Link>
+                <Link to="/auth?mode=signup">Start free</Link>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground justify-center">
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Per-agent tokens</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Default-deny scopes</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Human approval mid-call</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Exportable audit log</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Per-agent tokens &amp; scopes</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Slack approvals</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Immutable audit log</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> Open-source spec</div>
             </div>
           </div>
 
@@ -132,13 +129,17 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <Badge variant="outline" className="mb-4">Why now</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Your agents shipped. The guardrails didn't.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Your team is being asked to turn agents on. Security is asking how.</h2>
             <p className="mt-4 text-muted-foreground">
-              Building an agent feature takes a sprint. Building the boring stuff around it — identity, scopes, approvals, logs — usually doesn't happen until something breaks. We'd rather it didn't.
+              Most teams stop at read-only because the moment an agent can write, refund, delete, or message a customer — there's no clean way to approve it, restrict it, or prove what happened.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {risks.map(r => (
+            {[
+              { title: "Agents are read-only because we can't approve writes", desc: "You want agents creating tickets, issuing refunds, updating CRM. You don't want them doing it without a human in the loop. Today there's no layer for that." },
+              { title: "We're hand-rolling Slack approvals + audit tables", desc: "Every team builds the same thing: a proxy, a rules table, a Slack bot, an audit log. Brittle, owned by no one, and nobody trusts it after the engineer who built it leaves." },
+              { title: "OAuth scopes control access, not behavior", desc: "Scopes can say 'this agent may refund.' They can't say 'unless the amount > $500, then ask Sarah.' Behavior-level policy is the gap." },
+            ].map(r => (
               <div key={r.title} className="p-6 rounded-2xl border border-border bg-card">
                 <div className="h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center mb-4">
                   <AlertTriangle className="h-5 w-5 text-destructive" />
@@ -245,21 +246,21 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Open spec */}
-      <section className="py-20 md:py-28 bg-gradient-soft border-y border-border">
+      {/* Open spec — demoted credibility section */}
+      <section className="py-16 border-y border-border">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <Badge variant="outline" className="mb-4"><Github className="h-3 w-3 mr-1.5 inline" /> Open standard</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold">The spec is open. The lock-in isn't here.</h2>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            We publish the Agent Manifest spec under MIT — describe your app once, anyone can build a runtime for it. We just happen to think ours is pretty good.
+          <Badge variant="outline" className="mb-4"><Github className="h-3 w-3 mr-1.5 inline" /> Built on an open standard</Badge>
+          <h2 className="text-2xl md:text-3xl font-bold">No proprietary lock-in.</h2>
+          <p className="mt-3 text-muted-foreground max-w-2xl mx-auto text-sm">
+            AgentGate runs on the open Agent Manifest spec — MIT-licensed, vendor-neutral, governance-friendly. Your manifest works with any compliant runtime, not just ours.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3 justify-center">
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/spec"><FileText className="mr-2 h-4 w-4" /> Read the spec</Link>
+          <div className="mt-6 flex flex-wrap gap-2 justify-center">
+            <Button size="sm" variant="outline" asChild>
+              <Link to="/spec"><FileText className="mr-2 h-3.5 w-3.5" /> Read the spec</Link>
             </Button>
-            <Button size="lg" variant="ghost" asChild>
+            <Button size="sm" variant="ghost" asChild>
               <a href="https://github.com/mhaidi95/agent-manifest-specs" target="_blank" rel="noreferrer noopener">
-                <Github className="mr-2 h-4 w-4" /> Star on GitHub
+                <Github className="mr-2 h-3.5 w-3.5" /> View on GitHub
               </a>
             </Button>
           </div>
